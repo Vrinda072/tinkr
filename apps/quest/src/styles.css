@@ -1,0 +1,94 @@
+:root {
+  --butter: #ffe49a;
+  --lavender: #dccbff;
+  --cream: #fff9f0;
+  --pink: #f5c6d6;
+  --mint: #cbebdd;
+  --plum: #34263f;
+  --plum-soft: #6b5a78;
+  --line: #eadfd2;
+  --card: #ffffff;
+  --radius: 18px;
+  color-scheme: light;
+  font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif;
+  color: var(--plum);
+  background: var(--cream);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--cream); }
+h1, h2, p { margin: 0; }
+h1 { font-size: 22px; letter-spacing: -0.01em; }
+h2 { font-size: 14px; margin-bottom: 12px; }
+
+.page { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+.top { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; margin-bottom: 20px; }
+.muted { color: var(--plum-soft); }
+.small { font-size: 12px; }
+.mono { font-family: ui-monospace, "SF Mono", monospace; font-size: 12px; }
+.stats { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--plum-soft); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #c9bccf; }
+.dot.on { background: #2f9e6a; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+.stage-card { display: flex; flex-direction: column; gap: 10px; }
+.stage {
+  position: relative; border-radius: var(--radius); overflow: hidden; background: var(--plum);
+  aspect-ratio: 4 / 3; cursor: crosshair; box-shadow: 0 8px 30px rgba(52, 38, 63, 0.12);
+}
+.video, .overlay { position: absolute; inset: 0; width: 100%; height: 100%; }
+.video { object-fit: fill; }
+.stage-message {
+  position: absolute; inset: 0; display: grid; place-content: center; gap: 14px; text-align: center;
+  padding: 24px; color: var(--cream); background: rgba(52, 38, 63, 0.85); cursor: default;
+}
+.stage-message p { max-width: 380px; line-height: 1.5; }
+.hint { font-size: 13px; color: var(--plum-soft); }
+.notice { font-size: 13px; padding: 8px 12px; background: var(--butter); border-radius: 12px; align-self: flex-start; }
+
+.side { display: flex; flex-direction: column; gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+
+.labels { display: grid; gap: 6px; margin-bottom: 10px; }
+.label {
+  display: grid; grid-template-columns: 18px 1fr auto; align-items: center; gap: 10px; text-align: left;
+  padding: 8px 10px; border: 1.5px solid transparent; border-radius: 12px; background: #faf6f0;
+  font: inherit; color: inherit; cursor: pointer;
+}
+.label:hover { background: #f5efe6; }
+.label.active { border-color: var(--plum); background: #fff; }
+.label-name { font-weight: 600; text-transform: capitalize; }
+.swatch { width: 14px; height: 14px; border-radius: 5px; display: inline-block; }
+
+.btn {
+  font: inherit; font-weight: 600; font-size: 13px; padding: 8px 14px; border-radius: 999px; border: none;
+  background: var(--butter); color: var(--plum); cursor: pointer; justify-self: center;
+}
+.btn:hover { filter: brightness(0.97); }
+.btn.ghost { background: transparent; border: 1px solid var(--line); color: var(--plum-soft); }
+
+.rule-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.select { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; background: #faf6f0; border-radius: 10px; }
+.select select { font: inherit; font-weight: 600; border: none; background: transparent; color: inherit; text-transform: capitalize; }
+.slider { display: grid; gap: 6px; font-size: 13px; margin-bottom: 12px; }
+.slider input { accent-color: var(--plum); }
+.error { color: #c2410c; font-size: 13px; margin-bottom: 8px; }
+
+.status { display: grid; gap: 6px; padding: 10px 12px; border: 1.5px solid; border-radius: 12px; margin-bottom: 10px; }
+.status-pill {
+  justify-self: start; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+  transition: background 200ms ease;
+}
+.json {
+  margin: 0; font-size: 12px; background: #faf6f0; padding: 10px; border-radius: 10px; color: var(--plum-soft);
+  font-family: ui-monospace, "SF Mono", monospace;
+}
+
+.events { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 13px; max-height: 260px; overflow: auto; }
+.events li { display: flex; gap: 8px; align-items: baseline; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

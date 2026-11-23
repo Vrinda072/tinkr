@@ -10,8 +10,8 @@ A debug page in `apps/quest` (temporary) shows it working.
 **User story:** As a developer, I want a working monorepo so that core and apps build and test from one command.
 
 #### Acceptance criteria
-1. WHEN `pnpm install && pnpm test` runs at the repo root THEN all workspace tests SHALL run and pass.
-2. WHEN `pnpm --filter quest dev` runs THEN the Vite dev server SHALL serve the debug page.
+1. WHEN `npm install && npm test` runs at the repo root THEN all workspace tests SHALL run and pass.
+2. WHEN `npm run dev` runs THEN the Vite dev server SHALL serve the debug page.
 3. The repo SHALL contain `packages/core`, `apps/quest` and an MIT `LICENSE`.
 
 ## Requirement 2: Camera input

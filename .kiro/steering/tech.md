@@ -5,7 +5,7 @@ inclusion: always
 # Tinkr — Tech
 
 ## Stack
-- pnpm workspaces, TypeScript `strict`, ES modules
+- npm workspaces, TypeScript `strict`, ES modules (dependency-free source packages; Vite compiles core directly)
 - Vite + React 18 + Tailwind for apps; Motion for React only where CSS can't do it
 - Zod for every schema that crosses a boundary (LLM output, saved levels, events)
 - Vitest for tests, fast-check for property-based tests

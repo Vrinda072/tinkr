@@ -47,16 +47,17 @@ The LLM is called **only** when the user submits an instruction. Camera frames a
 ## Milestones and checklist
 
 ### M1 — Camera to live rule (Nov 23–25)
-- [ ] pnpm workspace, TS strict, Vitest, ESLint
-- [ ] Webcam capture with permission and disconnect handling
-- [ ] Click-to-calibrate colours (sample HSV range)
-- [ ] Blob detection for 3–5 colours on a downscaled frame
-- [ ] Tracker: stable IDs, EMA smoothing, ~500 ms occlusion grace, visibility state
-- [ ] Normalised coordinates (0–1, origin top-left)
-- [ ] `NEAR` evaluator → SATISFIED / NOT_SATISFIED / UNCERTAIN
-- [ ] Event log with debounced (hysteresis) transitions
-- [ ] Debug page: video + overlay + hand-written rule + event log
-- [ ] Unit tests + property-based tests (fast-check) for spatial functions
+- [x] npm workspace, TS strict, Vitest (ESLint deferred)
+- [x] Webcam capture with permission and disconnect handling
+- [x] Click-to-calibrate colours (sample HSV range), saved to localStorage
+- [x] Blob detection for 4 colours on a 160 px frame (~0.5 ms per frame)
+- [x] Tracker: stable IDs, EMA smoothing, ~500 ms occlusion grace, visibility state
+- [x] Normalised coordinates (0–1, origin top-left); distances in frame-height units
+- [x] `NEAR` evaluator → SATISFIED / NOT_SATISFIED / UNCERTAIN
+- [x] Event log with debounced (hysteresis) transitions
+- [x] Debug page: video + overlay + rule editor + event log (`npm run dev`)
+- [x] 41 unit + property-based tests (fast-check)
+- [ ] **Test with a real webcam and real blocks** (only a synthetic camera was tested so far)
 
 ### M2 — Full rule engine (Nov 26–27)
 - [ ] `BETWEEN`, `MOVED_TO` (zones), `INSIDE` zone
@@ -113,4 +114,9 @@ Never cut: the engine, the compiler, both apps working, tests, the `.kiro` artif
 
 ## Disclosure log
 Record outside help here for the submission write-up.
-- Nov 23: Architecture, plan, steering drafts and the M1 requirements draft were written with Claude Code (Anthropic) and then reviewed and refined in Kiro.
+- Nov 23: Architecture, plan, steering docs and the M1 requirements were written with Claude Code (Anthropic).
+- Nov 23: M1 code (`packages/core`, `apps/quest` debug page, tests) was written by Claude Code at the entrant's direction, **not in Kiro**.
+
+⚠️ The rules require the project to be built with Kiro ("Insufficient use of Kiro will result in
+disqualification"). If this is being submitted, later milestones need real Kiro use (specs, hooks,
+steering) and this log must be disclosed accurately in the write-up.
