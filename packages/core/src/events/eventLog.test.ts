@@ -40,6 +40,14 @@ describe("TransitionDetector", () => {
     expect(d.update("r", "UNCERTAIN", 550)).toBe("UNCERTAIN");
   });
 
+  it("commits on the same frame when holdMs is 0 (used for composite rules)", () => {
+    const log = new EventLog();
+    const d = new TransitionDetector(log, 0);
+    d.update("r", "NOT_SATISFIED", 0);
+    expect(d.update("r", "SATISFIED", 33)).toBe("SATISFIED");
+    expect(log.all()[1]).toMatchObject({ t: 33, from: "NOT_SATISFIED", to: "SATISFIED" });
+  });
+
   it("tracks rules independently", () => {
     const log = new EventLog();
     const d = new TransitionDetector(log, 300);

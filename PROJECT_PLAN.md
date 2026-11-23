@@ -12,7 +12,7 @@
 - [ ] Skeleton Crew: two apps in two separate folders (`apps/quest`, `apps/inspect`).
 - [ ] Public, working URL for judges. YouTube demo **under 3 minutes**.
 - [ ] Write-up on how Kiro was used: specs, hooks, steering, MCP, property-based testing.
-- [ ] **Request Kiro credits by Dec 1, 12:00 PM PT.**
+- [ ] **Request Kiro credits by Dec 1, 12:00 PM PT** (needed now: free plan is nearly used up). Redeem by Dec 4.
 - [ ] Optional bonuses: Best Student Project (needs student email + LinkedIn), blog post, #KiroweenHackathon26 social post.
 
 ## Positioning
@@ -59,7 +59,12 @@ The LLM is called **only** when the user submits an instruction. Camera frames a
 - [x] 41 unit + property-based tests (fast-check)
 - [ ] **Test with a real webcam and real blocks** (only a synthetic camera was tested so far)
 
-### M2 — Full rule engine (Nov 26–27)
+### M2 — Full rule engine (Nov 26–27) · built by Kiro CLI
+Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free plan: 50/month).
+- [x] Kiro wrote requirements, design, tasks (8 tasks)
+- [x] Claude Code reviewed; Kiro revised design.md (composite logging, `/inside` sub-path, post-order, BEFORE edge cases)
+- [ ] Kiro syncs requirements.md + tasks.md to the revised design.md (throttled mid-run; they are currently out of date)
+- [ ] Kiro implements tasks 1–8, Claude Code reviews + runs tests after each
 - [ ] `BETWEEN`, `MOVED_TO` (zones), `INSIDE` zone
 - [ ] `BEFORE` and `SEQUENCE` built on the event log, not on the latest frame
 - [ ] Zod rule schema, validated against the calibrated object IDs
@@ -116,6 +121,13 @@ Never cut: the engine, the compiler, both apps working, tests, the `.kiro` artif
 Record outside help here for the submission write-up.
 - Nov 23: Architecture, plan, steering docs and the M1 requirements were written with Claude Code (Anthropic).
 - Nov 23: M1 code (`packages/core`, `apps/quest` debug page, tests) was written by Claude Code at the entrant's direction, **not in Kiro**.
+
+- Nov 23: Installed Kiro CLI 3.5.0. From M2 on, code is written by **Kiro CLI in headless mode**
+  (`kiro-cli chat --no-interactive`), directed and reviewed by Claude Code.
+  - Run 1: read-only check that Kiro loads the steering docs (passed).
+  - Run 2: Kiro wrote the M2 spec (requirements, design, tasks).
+  - Run 3–5: Kiro revised design.md from Claude Code's review; throttled before syncing the other files.
+- Nov 23: Claude Code fixed TransitionDetector so holdMs = 0 commits on the same frame (a lag Kiro found in its design review).
 
 ⚠️ The rules require the project to be built with Kiro ("Insufficient use of Kiro will result in
 disqualification"). If this is being submitted, later milestones need real Kiro use (specs, hooks,

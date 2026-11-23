@@ -61,11 +61,12 @@ export class TransitionDetector {
       return current;
     }
 
-    const p = this.pending.get(ruleId);
+    let p = this.pending.get(ruleId);
     if (!p || p.status !== raw) {
-      this.pending.set(ruleId, { status: raw, since: t });
-      return current;
+      p = { status: raw, since: t };
+      this.pending.set(ruleId, p);
     }
+    // Checked in the same call so holdMs = 0 commits immediately instead of one frame late.
     if (t - p.since >= this.holdMs) {
       this.commit(ruleId, current, raw, t);
       return raw;
