@@ -78,6 +78,10 @@ Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free
 - [x] Requirements spec: `.kiro/specs/tinkr-star/requirements.md`
 - [ ] Kiro writes design + tasks, then builds `packages/star`
 
+### Design
+- [x] Mockups approved (Nov 23): `design/mockups/index.html` (Home, Quest, Inspect, report)
+- [x] Design steering for Kiro: `.kiro/steering/design.md` (loads for `apps/**` and `packages/star/**`)
+
 ### M3 — Compiler (Nov 27–28)
 - [ ] `compile(text, objects, zones)` → `{ok, rule}` or `{ok:false, reason, ambiguity}`
 - [ ] Serverless proxy, provider set by env var, structured output
