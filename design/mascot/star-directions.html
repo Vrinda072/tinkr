@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tinkr star directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --butter: #ffe49a; --lavender: #dccbff; --cream: #fff9f0; --pink: #f5c6d6;
+    --mint: #cbebdd; --plum: #34263f; --plum-soft: #6b5a78; --line: #eadfd2;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--cream); color: var(--plum); font-family: Nunito, system-ui, sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 28px; margin: 0 0 6px; }
+  .lede { color: var(--plum-soft); margin: 0 0 22px; max-width: 640px; line-height: 1.5; }
+
+  .states { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 22px; background: #fff;
+    border: 1px solid var(--line); padding: 5px; border-radius: 999px; width: fit-content; }
+  .states button { font: inherit; font-weight: 700; font-size: 14px; border: 0; background: transparent;
+    color: var(--plum-soft); padding: 8px 16px; border-radius: 999px; cursor: pointer; }
+  .states button[aria-pressed="true"] { background: var(--plum); color: var(--cream); }
+
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 16px 16px 20px;
+    display: flex; flex-direction: column; gap: 10px; }
+  .stage { aspect-ratio: 1; border-radius: 16px; display: grid; place-items: center; cursor: pointer;
+    background: radial-gradient(circle at 50% 38%, #fffdf8, #f8efe1); overflow: hidden; }
+  .card h2 { font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 20px; margin: 4px 0 0; }
+  .tag { font-size: 12px; font-weight: 700; color: var(--plum-soft); }
+  .card p { margin: 0; color: var(--plum-soft); font-size: 14px; line-height: 1.5; }
+  .chip { display: flex; align-items: center; gap: 8px; background: #faf6f0; border-radius: 999px;
+    padding: 4px 14px 4px 4px; font-size: 13px; font-weight: 700; width: fit-content; }
+  .chip .star { width: 34px; height: 34px; }
+  .note { margin-top: 26px; font-size: 14px; color: var(--plum-soft); line-height: 1.6; max-width: 720px; }
+
+  /* ---------- star ---------- */
+  .stage .star { width: 80%; height: auto; }
+  .star { overflow: visible; }
+  /* Only animated parts use their own box as transform origin; static attribute transforms stay in SVG units. */
+  .wrap, .body, .shadow, .blink, .tw, .q, .spark, .huh, .look { transform-box: fill-box; }
+  .wrap { transform-origin: 50% 90%; }
+  .body { transform-origin: 50% 90%; }
+  .shadow { fill: var(--plum); opacity: 0.11; transform-origin: center; }
+  .mouth { fill: none; stroke: var(--plum); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .eye { fill: var(--plum); }
+  .cheek { fill: #f5a9c0; opacity: 0.6; }
+  .face > g.f { display: none; }
+  .star[data-state="idle"] .f-idle, .star[data-state="thinking"] .f-thinking,
+  .star[data-state="success"] .f-success, .star[data-state="uncertain"] .f-uncertain { display: inline; }
+  .think, .huh, .burst, .twinkles { opacity: 0; }
+
+  /* idle: float, squish, blink */
+  .star[data-state="idle"] .body { animation: float 3.2s ease-in-out infinite; }
+  .star[data-state="idle"] .shadow { animation: shadow 3.2s ease-in-out infinite; }
+  .star[data-state="idle"] .twinkles { opacity: 1; }
+  .blink { transform-origin: center; animation: blink 4.6s infinite; }
+  .blink.late { animation-delay: 0.06s; }
+  .tw { fill: var(--butter); stroke: var(--plum); stroke-width: 1.2; transform-origin: center; animation: tw 2.8s ease-in-out infinite; }
+  .tw.b { animation-delay: 1.4s; }
+  @keyframes float { 0%, 100% { transform: translateY(0) scale(1.03, 0.97); } 50% { transform: translateY(-9px) scale(0.98, 1.02) rotate(-2deg); } }
+  @keyframes shadow { 0%, 100% { transform: scale(1); opacity: 0.12; } 50% { transform: scale(0.8); opacity: 0.06; } }
+  @keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+  @keyframes tw { 0%, 100% { opacity: 0; transform: scale(0.4); } 50% { opacity: 1; transform: scale(1) rotate(45deg); } }
+
+  /* thinking: head tilt, rising question mark + sparkle */
+  .star[data-state="thinking"] .body { animation: ponder 2.6s ease-in-out infinite; }
+  .star[data-state="thinking"] .think { opacity: 1; }
+  .star[data-state="thinking"] .q { animation: rise 2.6s ease-out infinite; }
+  .star[data-state="thinking"] .q2 { animation-delay: 1.3s; }
+  .q { opacity: 0; transform-origin: center; }
+  .qtext { font-family: Fredoka, Nunito, sans-serif; font-weight: 600; font-size: 28px; fill: var(--plum); }
+  .think .spk { fill: var(--lavender); stroke: var(--plum); stroke-width: 1.2; }
+  @keyframes ponder { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(-13deg) translateY(-3px); } }
+  @keyframes rise { 0% { opacity: 0; transform: translate(0, 6px) scale(0.6); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(6px, -24px) scale(1); } }
+
+  /* success: squash, jump, spin, land + sparkle burst */
+  .star[data-state="success"] .body { transform-origin: 50% 55%; animation: hop 2.2s cubic-bezier(0.3, 0.7, 0.4, 1) infinite; }
+  .star[data-state="success"] .shadow { animation: hopshadow 2.2s cubic-bezier(0.3, 0.7, 0.4, 1) infinite; }
+  .star[data-state="success"] .burst { opacity: 1; }
+  .star[data-state="success"] .spark { animation: burst 2.2s ease-out infinite; }
+  .spark { opacity: 0; fill: var(--butter); stroke: var(--plum); stroke-width: 1.4; transform-origin: center; }
+  .spark.p { fill: var(--pink); } .spark.m { fill: var(--mint); } .spark.l { fill: var(--lavender); }
+  @keyframes hop {
+    0% { transform: translateY(0); }
+    10% { transform: translateY(4px) scale(1.12, 0.86); }
+    36% { transform: translateY(-34px) rotate(200deg) scale(0.95, 1.06); }
+    56% { transform: translateY(-4px) rotate(360deg); }
+    63% { transform: translateY(3px) rotate(360deg) scale(1.08, 0.92); }
+    74%, 100% { transform: translateY(0) rotate(360deg); }
+  }
+  @keyframes hopshadow { 0%, 100% { transform: scale(1); } 10% { transform: scale(1.1); } 36% { transform: scale(0.6); opacity: 0.05; } 63% { transform: scale(1.08); } }
+  @keyframes burst {
+    0%, 30% { opacity: 0; transform: translate(0, 0) scale(0.3); }
+    40% { opacity: 1; }
+    78% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1) rotate(90deg); }
+    100% { opacity: 0; }
+  }
+
+  /* uncertain: gentle wobble + small bobbing question mark */
+  .star[data-state="uncertain"] .body { animation: wobble 1.8s ease-in-out infinite; }
+  .star[data-state="uncertain"] .huh { opacity: 1; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg) translateX(2px); } }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(8deg); } 50% { transform: translateY(-5px) rotate(14deg); } }
+
+  /* click / tap reaction */
+  .boop .wrap { animation: boop 0.45s ease-out; }
+  @keyframes boop { 0% { transform: scale(1); } 30% { transform: scale(1.1, 0.88); } 60% { transform: scale(0.95, 1.07); } 100% { transform: scale(1); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .star *, .boop .wrap { animation: none !important; }
+    .star[data-state="success"] .spark { opacity: 1; transform: translate(calc(var(--dx) * 0.6), calc(var(--dy) * 0.6)); }
+    .star[data-state="thinking"] .q { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tinkr's little star: pick a direction</h1>
+  <p class="lede">Three takes on the same character. Switch states below to see how each one feels, click a star to boop it, and move your pointer over the idle one: its eyes follow you. The small chip shows how it reads at Tinkr Inspect size.</p>
+
+  <div class="states" role="group" aria-label="Mascot state">
+    <button data-s="idle" aria-pressed="true">Idle</button>
+    <button data-s="thinking" aria-pressed="false">Thinking</button>
+    <button data-s="success" aria-pressed="false">Success</button>
+    <button data-s="uncertain" aria-pressed="false">Uncertain</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="note">Mixing is fine, for example A's inked outline with C's soft shading. The chosen look becomes the spec Kiro builds <code>&lt;TinkrStar state="…" /&gt;</code> from: one SVG, CSS keyframes, no animation library needed.</p>
+</main>
+
+<script>
+const DIRS = [
+  { id: "bun", name: "Butter Bun", tag: "A · chubby, inked outline",
+    desc: "Short round points and a wobbly hand-inked line. Reads like an indie game sprite; the most character at small sizes.",
+    ratio: 0.6, ro: 0.42, ri: 0.3, jitter: [0, 0.02, -0.03, 0, 0.03, -0.01, -0.02, 0.01, 0.02, -0.02] },
+  { id: "sticker", name: "Sticker", tag: "B · die-cut sticker",
+    desc: "Flat butter fill with a thick cream border and a lavender offset shadow, like a sticker on a laptop. Clean and graphic.",
+    ratio: 0.55, ro: 0.34, ri: 0.26, jitter: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+  { id: "pencil", name: "Soft Pencil", tag: "C · shaded, grainy, sketchy",
+    desc: "No hard outline: soft gradient shading, paper grain and a light pencil edge. The most illustrated and gentle.",
+    ratio: 0.58, ro: 0.4, ri: 0.28, jitter: [0.02, -0.03, -0.04, 0.03, 0.05, -0.02, -0.03, 0.04, 0.01, -0.03] },
+];
+
+const CHIP_TEXT = {
+  idle: "Ready when you are",
+  thinking: "Reading your instruction…",
+  success: "Step 2 of 3 complete",
+  uncertain: "Can't see the blue block",
+};
+
+// Rounded, slightly irregular five-point star.
+function starPath({ ratio, ro, ri, jitter }, R = 82, cx = 100, cy = 108) {
+  const pts = [];
+  for (let i = 0; i < 10; i++) {
+    const a = ((-90 + 36 * i) * Math.PI) / 180;
+    const r = (i % 2 ? R * ratio : R) * (1 + jitter[i]);
+    pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+  }
+  const lerp = (p, q, f) => [p[0] + (q[0] - p[0]) * f, p[1] + (q[1] - p[1]) * f];
+  const f2 = (p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+  let d = "";
+  pts.forEach((p, i) => {
+    const f = i % 2 ? ri : ro;
+    const a1 = lerp(p, pts[(i + 9) % 10], f);
+    const a2 = lerp(p, pts[(i + 1) % 10], f);
+    d += `${i ? "L" : "M"}${f2(a1)} Q${f2(p)} ${f2(a2)} `;
+  });
+  return d + "Z";
+}
+
+const sparkle = (x, y, s) =>
+  `M${x} ${y - s} Q${x} ${y} ${x + s} ${y} Q${x} ${y} ${x} ${y + s} Q${x} ${y} ${x - s} ${y} Q${x} ${y} ${x} ${y - s}Z`;
+
+function base(dir, d, p) {
+  const ink = `<filter id="${p}ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter>`;
+  if (dir.id === "bun") {
+    return {
+      defs: `<clipPath id="${p}clip"><path d="${d}"/></clipPath>${ink}`,
+      art: `<path d="${d}" fill="#FFE49A"/>
+        <g clip-path="url(#${p}clip)">
+          <path d="${d}" transform="translate(-8 -10)" fill="none" stroke="#F2C35E" stroke-width="22" opacity=".5"/>
+          <ellipse cx="80" cy="66" rx="13" ry="7" fill="#fff" opacity=".55" transform="rotate(-32 80 66)"/>
+        </g>
+        <path d="${d}" fill="none" stroke="#34263F" stroke-width="3.6" stroke-linejoin="round" filter="url(#${p}ink)"/>`,
+    };
+  }
+  if (dir.id === "sticker") {
+    return {
+      defs: `<clipPath id="${p}clip"><path d="${d}"/></clipPath><filter id="${p}drop" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="6" stdDeviation="0" flood-color="#DCCBFF" flood-opacity="1"/></filter>`,
+      art: `<path d="${d}" fill="#FFF9F0" stroke="#EADFD2" stroke-width="19" stroke-linejoin="round" filter="url(#${p}drop)"/>
+        <path d="${d}" fill="#FFF9F0" stroke="#FFFFFF" stroke-width="15" stroke-linejoin="round"/>
+        <path d="${d}" fill="#FFE49A"/>
+        <g clip-path="url(#${p}clip)"><path d="${d}" transform="translate(-6 -8)" fill="none" stroke="#F8D47A" stroke-width="14"/></g>
+        <path d="${d}" fill="none" stroke="#E7BE5F" stroke-width="1.6"/>`,
+    };
+  }
+  return {
+    defs: `${ink}
+      <radialGradient id="${p}g" cx=".42" cy=".36" r=".78"><stop offset="0" stop-color="#FFF7DC"/><stop offset=".55" stop-color="#FFE49A"/><stop offset="1" stop-color="#F2C05C"/></radialGradient>
+      <filter id="${p}grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix in="n" type="saturate" values="0" result="g"/><feComponentTransfer in="g" result="g2"><feFuncA type="linear" slope=".22"/></feComponentTransfer><feComposite in="g2" in2="SourceGraphic" operator="in" result="gr"/><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="gr"/></feMerge></filter>`,
+    art: `<path d="${d}" fill="url(#${p}g)" filter="url(#${p}grain)"/>
+      <path d="${d}" fill="none" stroke="#9B7650" stroke-width="1.8" opacity=".7" stroke-linejoin="round" filter="url(#${p}ink)"/>
+      <path d="${d}" fill="none" stroke="#9B7650" stroke-width="1.2" opacity=".3" transform="translate(1 -0.8)" filter="url(#${p}ink)"/>`,
+  };
+}
+
+const FACE = `
+  <g class="face">
+    <ellipse class="cheek" cx="73" cy="121" rx="8.5" ry="5"/><ellipse class="cheek" cx="127" cy="121" rx="8.5" ry="5"/>
+    <g class="f f-idle">
+      <g class="look">
+        <g class="blink"><ellipse class="eye" cx="85" cy="108" rx="5" ry="7"/><circle cx="86.6" cy="105" r="1.7" fill="#fff"/></g>
+        <g class="blink late"><ellipse class="eye" cx="115" cy="108" rx="5" ry="7"/><circle cx="116.6" cy="105" r="1.7" fill="#fff"/></g>
+      </g>
+      <path class="mouth" d="M93 122 Q100 128 107 122"/>
+    </g>
+    <g class="f f-thinking">
+      <g transform="translate(3 -4)"><ellipse class="eye" cx="85" cy="108" rx="4.5" ry="6.5"/><ellipse class="eye" cx="115" cy="108" rx="4.5" ry="6.5"/></g>
+      <ellipse class="eye" cx="102" cy="123" rx="3.6" ry="4.2"/>
+    </g>
+    <g class="f f-success">
+      <path class="mouth" d="M78 110 Q85 101 92 110"/><path class="mouth" d="M108 110 Q115 101 122 110"/>
+      <path d="M91 119 Q100 133 109 119 Z" fill="#34263F" stroke="#34263F" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M96 125.5 Q100 129 104 125.5" fill="#F08AA6"/>
+    </g>
+    <g class="f f-uncertain">
+      <ellipse class="eye" cx="85" cy="109" rx="5" ry="6.5"/><ellipse class="eye" cx="115" cy="110" rx="4" ry="5"/>
+      <path class="mouth" d="M78 98 Q84 93 91 96" stroke-width="2.6"/><path class="mouth" d="M110 101 L121 101" stroke-width="2.6"/>
+      <path class="mouth" d="M92 124 q4 -4 8 0 t8 0"/>
+    </g>
+  </g>`;
+
+const BURST = [
+  [0, -88, ""], [62, -62, "p"], [88, 0, "m"], [62, 62, ""], [0, 84, "l"], [-62, 62, "p"], [-88, 0, ""], [-62, -62, "m"],
+];
+
+let uid = 0;
+function starSVG(dir, state) {
+  const p = `${dir.id}${uid++}`;
+  const d = starPath(dir);
+  const { defs, art } = base(dir, d, p);
+  return `<svg class="star" data-state="${state}" viewBox="0 0 200 200" role="img" aria-label="Tinkr star, ${state}">
+    <defs>${defs}</defs>
+    <ellipse class="shadow" cx="100" cy="190" rx="46" ry="6"/>
+    <g class="wrap">
+      <g class="body">${art}${FACE}</g>
+      <g class="twinkles"><path class="tw" d="${sparkle(168, 52, 7)}"/><path class="tw b" d="${sparkle(30, 82, 5)}"/></g>
+      <g class="think"><text class="q qtext" x="150" y="52">?</text><path class="q q2 spk" d="${sparkle(168, 74, 7)}"/></g>
+      <g class="huh"><text class="qtext" x="146" y="44" font-size="24">?</text></g>
+      <g class="burst">${BURST.map(([dx, dy, c]) => `<path class="spark ${c}" style="--dx:${dx}px;--dy:${dy}px" d="${sparkle(100, 104, 12)}"/>`).join("")}</g>
+    </g>
+  </svg>`;
+}
+
+const grid = document.getElementById("grid");
+let state = "idle";
+
+grid.innerHTML = DIRS.map((dir) => `
+  <article class="card">
+    <div class="stage" data-dir="${dir.id}">${starSVG(dir, state)}</div>
+    <span class="tag">${dir.tag}</span>
+    <h2>${dir.name}</h2>
+    <p>${dir.desc}</p>
+    <div class="chip">${starSVG(dir, state)}<span class="chip-text">${CHIP_TEXT[state]}</span></div>
+  </article>`).join("");
+
+function setState(s) {
+  state = s;
+  document.querySelectorAll(".star").forEach((el) => el.setAttribute("data-state", s));
+  document.querySelectorAll(".chip-text").forEach((el) => (el.textContent = CHIP_TEXT[s]));
+  document.querySelectorAll(".states button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === s)));
+}
+document.querySelectorAll(".states button").forEach((b) => b.addEventListener("click", () => setState(b.dataset.s)));
+
+document.querySelectorAll(".stage").forEach((stage) => {
+  const svg = stage.querySelector(".star");
+  stage.addEventListener("click", () => {
+    svg.classList.remove("boop");
+    void svg.getBoundingClientRect();
+    svg.classList.add("boop");
+  });
+  // Eyes look toward the pointer (idle face only).
+  stage.addEventListener("pointermove", (e) => {
+    const r = stage.getBoundingClientRect();
+    const dx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+    const dy = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    svg.querySelector(".look").style.transform = `translate(${(dx * 3).toFixed(2)}px, ${(dy * 2.5).toFixed(2)}px)`;
+  });
+  stage.addEventListener("pointerleave", () => (svg.querySelector(".look").style.transform = ""));
+});
+</script>
+</body>
+</html>
