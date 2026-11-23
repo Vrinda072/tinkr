@@ -12,7 +12,9 @@
 - [ ] Skeleton Crew: two apps in two separate folders (`apps/quest`, `apps/inspect`).
 - [ ] Public, working URL for judges. YouTube demo **under 3 minutes**.
 - [ ] Write-up on how Kiro was used: specs, hooks, steering, MCP, property-based testing.
-- [ ] **Request Kiro credits by Dec 1, 12:00 PM PT** (needed now: free plan is nearly used up). Redeem by Dec 4.
+- [x] Request Kiro credits (form submitted Nov 23)
+- [ ] Complete Devpost ID check when the email arrives (Devpost name must match government ID exactly)
+- [ ] Redeem the credit code while signed in to the GitHub Kiro account, by **Dec 4**
 - [ ] Optional bonuses: Best Student Project (needs student email + LinkedIn), blog post, #KiroweenHackathon26 social post.
 
 ## Positioning
