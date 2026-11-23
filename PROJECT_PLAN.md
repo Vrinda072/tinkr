@@ -72,6 +72,12 @@ Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free
 - [ ] Zod rule schema, validated against the calibrated object IDs
 - [ ] Recorded-frame fixtures (JSON WorldState sequences) for integration tests
 
+### Mascot — TinkrStar · to be built by Kiro CLI
+- [x] Three design directions explored (`design/mascot/star-directions.html`)
+- [x] **Chosen: A · Butter Bun** (Nov 23)
+- [x] Requirements spec: `.kiro/specs/tinkr-star/requirements.md`
+- [ ] Kiro writes design + tasks, then builds `packages/star`
+
 ### M3 — Compiler (Nov 27–28)
 - [ ] `compile(text, objects, zones)` → `{ok, rule}` or `{ok:false, reason, ambiguity}`
 - [ ] Serverless proxy, provider set by env var, structured output
@@ -130,6 +136,8 @@ Record outside help here for the submission write-up.
   - Run 2: Kiro wrote the M2 spec (requirements, design, tasks).
   - Run 3–5: Kiro revised design.md from Claude Code's review; throttled before syncing the other files.
 - Nov 23: Claude Code fixed TransitionDetector so holdMs = 0 commits on the same frame (a lag Kiro found in its design review).
+
+- Nov 23: Mascot design exploration page and the TinkrStar requirements spec were written by Claude Code; the component itself will be built by Kiro.
 
 ⚠️ The rules require the project to be built with Kiro ("Insufficient use of Kiro will result in
 disqualification"). If this is being submitted, later milestones need real Kiro use (specs, hooks,
