@@ -53,7 +53,7 @@ progress.
 #### Acceptance criteria
 1. `BEFORE(first, then)` SHALL determine ordering over committed events in the EventLog, never over the current frame.
 2. WHEN `first` committed `SATISFIED` at t1 AND `then` committed `SATISFIED` at t2 > t1 THEN BEFORE SHALL be `SATISFIED` (latched).
-3. IF `then` committed `SATISFIED` while `first` has never committed `SATISFIED` THEN BEFORE SHALL be `NOT_SATISFIED` with a reason that states the order was wrong, so Tinkr Inspect can report "wrong order".
+3. IF `then` committed `SATISFIED` while `first` has never committed `SATISFIED` THEN BEFORE SHALL be `NOT_SATISFIED` with a reason that states the order was wrong, so Tinkr Quest can report "wrong order".
 4. IF neither sub-rule has committed a `SATISFIED` event yet THEN BEFORE SHALL follow its children: `UNCERTAIN` if either child is `UNCERTAIN`, otherwise `NOT_SATISFIED`.
 5. Once `SATISFIED`, BEFORE SHALL latch.
 6. BEFORE SHALL be a pure function of `(rule, path, leafStatuses, EventLog)` and SHALL NOT read the `WorldState` directly.
@@ -124,4 +124,4 @@ progress.
 5. Every new source file SHALL be under ~200 lines; tests SHALL sit next to source as `*.test.ts`.
 
 ## Out of scope for M2
-LLM compilation (M3), the Tinkr Inspect and Quest UIs (M4–M5), deployment, schema migration of saved levels (M3), and performance optimisation beyond the existing frame budget.
+LLM compilation (M3), the Tinkr Focus and Quest UIs (M4–M5), deployment, schema migration of saved levels (M3), and performance optimisation beyond the existing frame budget.

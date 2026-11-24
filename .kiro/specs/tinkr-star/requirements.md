@@ -12,7 +12,7 @@ The component lives in `packages/star` as `@tinkr/star` and is used by both apps
 real application state passed in by the app. It never animates on its own schedule.
 
 ## Requirement 1: Package and API
-**User story:** As an app developer, I want one reusable mascot component so that Quest and Inspect share the same character.
+**User story:** As an app developer, I want one reusable mascot component so that Quest and Focus share the same character.
 
 #### Acceptance criteria
 1. The package SHALL export `<TinkrStar state size? label? onBoop? />` from `@tinkr/star`.

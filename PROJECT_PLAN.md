@@ -1,6 +1,6 @@
 # Tinkr — Project Plan
 
-> Make the physical world programmable.
+> Give your AI coding agent eyes on your desk.
 > Kiroween 2026 · Skeleton Crew · Deadline **Dec 4, 2026, 2:00 PM PT** (no extensions)
 
 ## Ground rules (from the official rules, read Nov 23)
@@ -9,13 +9,26 @@
 - [ ] All code written after Oct 30, 2026. Disclose any outside help or pre-existing code.
 - [ ] Public GitHub repo, OSI license visible in the About section (MIT).
 - [ ] `/.kiro` at the repo root with real specs, hooks and steering. Never gitignored.
-- [ ] Skeleton Crew: two apps in two separate folders (`apps/quest`, `apps/inspect`).
+- [ ] Skeleton Crew: two apps in two separate folders (`apps/focus`, `apps/quest`).
 - [ ] Public, working URL for judges. YouTube demo **under 3 minutes**.
 - [ ] Write-up on how Kiro was used: specs, hooks, steering, MCP, property-based testing.
 - [x] Request Kiro credits (form submitted Nov 23)
 - [ ] Complete Devpost ID check when the email arrives (Devpost name must match government ID exactly)
 - [ ] Redeem the credit code while signed in to the GitHub Kiro account, by **Dec 4**
 - [ ] Optional bonuses: Best Student Project (needs student email + LinkedIn), blog post, #KiroweenHackathon26 social post.
+
+## Direction (decided Nov 24)
+
+Audience: young developers, students and indie game makers.
+
+- **The kit:** `@tinkr/core` + `@tinkr/star` + **Tinkr MCP**, so coding agents (Kiro) can see
+  objects, rules and events on a real desk. The demo has Kiro build a third app live.
+- **Tinkr Focus:** focus timer that only runs while your phone is face-down in the away zone.
+- **Tinkr Quest:** write a tabletop game's rules in English; Tinkr referees it on the table.
+- Inspect was dropped: it does not serve this audience.
+- Why: Kiroween 2025's 1st place (InteractionKit) was a Kiro-native CV kit for gestures;
+  Best Skeleton Crew (Impulse Kit) was one engine in very different domains. Tinkr does
+  objects + rules, with two apps as different as deep work and play.
 
 ## Positioning
 
@@ -32,10 +45,11 @@ tinkr/
 ├── .kiro/{steering,specs,hooks}
 ├── packages/
 │   ├── core/        # pure TS, no React: tracking, spatial, temporal, rules, events, compiler
-│   └── star/        # <TinkrStar state=…/> SVG + CSS mascot (React)
+│   ├── star/        # <TinkrStar state=…/> SVG + CSS mascot (React)
+│   └── mcp/         # MCP server: agents read WorldState, rules, events from a running app
 ├── apps/
-│   ├── quest/       # Vite + React puzzle game
-│   └── inspect/     # Vite + React assembly verifier
+│   ├── focus/       # Vite + React phone-away focus timer
+│   └── quest/       # Vite + React tabletop rules referee
 ├── api/compile.ts   # tiny serverless LLM proxy (keeps the API key off the client)
 └── LICENSE, README.md
 ```
@@ -79,7 +93,7 @@ Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free
 - [ ] Kiro writes design + tasks, then builds `packages/star`
 
 ### Design
-- [x] Mockups approved (Nov 23): `design/mockups/index.html` (Home, Quest, Inspect, report)
+- [x] Mockups approved (Nov 23): `design/mockups/index.html` (Home, Quest; Inspect screens superseded by Focus)
 - [x] Design steering for Kiro: `.kiro/steering/design.md` (loads for `apps/**` and `packages/star/**`)
 
 ### M3 — Compiler (Nov 27–28)
@@ -88,15 +102,25 @@ Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free
 - [ ] 20 golden instruction→rule cases plus rejection cases
 - [ ] Hand-written rule editor fallback (demo insurance)
 
-### M4 — Tinkr Quest (Nov 29)
-- [ ] Level list (5 hand-authored + "make your own" via the compiler)
-- [ ] Live progress per condition, timer, score, completion screen
-- [ ] TinkrStar as a guide: thinking while compiling, celebrating on success
+### M4 — Tinkr Quest: tabletop referee (Nov 29)
+- [ ] Draw zones on the board (castle, start, …); write win rules in English
+- [ ] 3 bundled example games + "write your own" via the compiler
+- [ ] Live rule status per player, turn/round log from the EventLog, winner screen
+- [ ] TinkrStar as referee: thinking while compiling, celebrating the winner
 
-### M5 — Tinkr Inspect (Nov 30)
-- [ ] Assembly-area zone setup, ordered steps
-- [ ] Missing / misplaced / out-of-order / uncertain states
-- [ ] Inspection history + exportable completion report (JSON/printable)
+### M5 — Tinkr Focus (Nov 30)
+- [ ] Away-zone setup; calibrate the phone sticker
+- [ ] Timer runs only while `INSIDE(phone, away)` is SATISFIED; pauses on NOT_SATISFIED
+- [ ] UNCERTAIN (phone unseen) pauses with "Can't see your phone", never counted as a pickup
+- [ ] Session history, streaks, pickups per hour (from the EventLog)
+- [ ] Focus mockup (Kiro, from design steering)
+
+### M5b — Tinkr MCP (Nov 30–Dec 1)
+- [ ] Browser app publishes WorldState, rules and events to a local bridge (WebSocket)
+- [ ] MCP server (stdio) tools: `list_objects`, `get_world`, `compile_rule`, `check_rule`,
+      `wait_for_rule`, `get_events`. Never exposes camera frames.
+- [ ] `.kiro/settings/mcp.json` + steering so Kiro uses it
+- [ ] Demo: Kiro builds a third mini app ("tidy desk" check) and tests it on the real desk
 
 ### M6 — Reliability (Dec 1)
 - [ ] Test matrix: correct, wrong, missing, occlusion, lighting change, wrong order, camera unplug, repeated events
@@ -108,12 +132,12 @@ Spec: `.kiro/specs/m2-rule-engine/`. **Blocked on hackathon Kiro credits** (free
 - [ ] Dec 4: submission buffer only
 
 ## Cut list (in order, if behind)
-1. Inspect PDF report → JSON only
-2. Quest scoring/timer
+1. Focus streaks (keep timer + history)
+2. Quest bundled games 3 → 1
 3. Mascot extra states (keep idle / thinking / success / uncertain)
 4. `MOVED_TO` → reuse `INSIDE` zone
 
-Never cut: the engine, the compiler, both apps working, tests, the `.kiro` artifacts.
+Never cut: the engine, the compiler, both apps working, the MCP server, tests, the `.kiro` artifacts.
 
 ## Top risks
 | Risk | Mitigation |
@@ -141,6 +165,7 @@ Record outside help here for the submission write-up.
   - Run 3–5: Kiro revised design.md from Claude Code's review; throttled before syncing the other files.
 - Nov 23: Claude Code fixed TransitionDetector so holdMs = 0 commits on the same frame (a lag Kiro found in its design review).
 
+- Nov 24: Direction changed to Focus + Quest + MCP; plan, README and steering updated by Claude Code.
 - Nov 23: Mascot design exploration page and the TinkrStar requirements spec were written by Claude Code; the component itself will be built by Kiro.
 
 ⚠️ The rules require the project to be built with Kiro ("Insufficient use of Kiro will result in

@@ -17,7 +17,8 @@ packages/core/src/
   index.ts     # public API only
 packages/core/fixtures/   # recorded WorldState sequences for integration tests
 packages/star/            # <TinkrStar state=… />
-apps/quest/  apps/inspect/
+packages/mcp/             # MCP server: agents read WorldState, rules and events from a running app
+apps/focus/  apps/quest/
 api/compile.ts
 ```
 

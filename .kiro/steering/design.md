@@ -6,7 +6,9 @@ fileMatchPattern: ["apps/**", "packages/star/**"]
 # Tinkr — Design
 
 Approved references (match these, don't reinvent them):
-- `design/mockups/index.html` — Home, Tinkr Quest (+ level complete), Tinkr Inspect, Inspect report.
+- `design/mockups/index.html` — Home, Tinkr Quest (+ level complete). Its Inspect and report
+  screens are superseded: Inspect was replaced by Tinkr Focus (Nov 24). Reuse their calm
+  panel style for Focus until a Focus mockup exists.
 - `design/mascot/star-directions.html` — mascot; the chosen direction is **A · Butter Bun**.
 
 ## Core idea
@@ -40,11 +42,12 @@ green `#30A46C`, yellow `#F2C200`) and are never used for UI chrome.
 ## Layout
 - App screens: camera board left (~60%), rule panel right; stacks below 900 px.
 - Quest: playful — lavender wash, 28–32 px radii, the star guides in a butter speech bubble.
-- Inspect: calm — white panels, 14 px radii, thin borders; the star appears only as a small status chip.
+- Focus: calm — white panels, 14 px radii, thin borders; a large session timer; the star is a
+  small companion that reacts when the phone is picked up.
 - Report: a printable paper sheet (4 px radius), no star.
 
 ## Copy
-- Status words: Done / Your move (Quest); Passed / Misplaced / Can't check / Waiting (Inspect).
+- Status words: Done / Your move (Quest); Focusing / Paused / Can't see your phone (Focus).
 - Explanations say what's wrong and how to fix it with real numbers from the engine,
   e.g. "Blue is 0.31 from red. Move it within 0.15 of red."
 - Out-of-view copy names the object and the time: "Green hasn't been visible for 3 seconds."
