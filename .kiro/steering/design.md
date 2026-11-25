@@ -8,6 +8,8 @@ fileMatchPattern: ["apps/**", "packages/star/**"]
 References:
 - `design/mascot/star-directions.html` — mascot; the chosen direction is **A · Butter Bun**.
   In Tinkr the star leads the ghost crew.
+- `design/mascot/crew.html` — the ghost crew (Thief, Listener, Grandma, Night Owl, Trickster)
+  and how each reacts while waiting, checking, finding a problem, and when a promise is kept.
 - `design/mockups/index.html` — earlier camera-app mockups. Its tokens, type and overall feel
   still apply; its screens are superseded. New screens: promise cards, ghost run, report.
 
@@ -46,4 +48,4 @@ The ghost crew and the star add warmth around the edges; the evidence is never d
 ## Quality floor
 Responsive to 360 px with no horizontal scroll, visible keyboard focus, WCAG AA text contrast,
 `prefers-reduced-motion` respected. Tinkr checks other apps for accessibility, so its own UI
-must pass its own Blind Ghost.
+must pass its own Listener.

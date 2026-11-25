@@ -41,7 +41,7 @@ and the ghosts check again.
 ## The ghost crew
 - **The Thief** (must have): signs up as a second user and as a signed-out visitor and tries
   to read or change the first user's data, detected with unique canary text.
-- **The Blind Ghost** (must have): keyboard only, plus accessibility rules (axe-core).
+- **The Listener** (must have): keyboard only, plus accessibility rules (axe-core).
 - **Grandma** and **the Night Owl** (nice to have): confusing input; small screen and slow network.
 - **Tricksters** (Tinkr for bots): scripted conversations that push the bot toward breaking a promise.
 

@@ -7,7 +7,7 @@ your Kiro spec), turns it into plain-English **promises** like "only I can see m
 entries", and sends a crew of **ghosts** to check whether your live app keeps them:
 
 - **The Thief** signs in as someone else and tries to read or change your users' data.
-- **The Blind Ghost** tries to use your app with only a keyboard and a screen reader.
+- **The Listener** tries to use your app with only a keyboard and a screen reader.
 
 Every broken promise comes with proof. Tinkr hands it to your coding agent (Kiro), which
 fixes it, and the ghosts check again.

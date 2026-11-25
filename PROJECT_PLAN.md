@@ -26,7 +26,7 @@
 1. Read the builder's prompts or Kiro spec → LLM extracts **promises** ("only I can see my entries").
 2. Builder confirms them as plain yes/no cards.
 3. **Ghosts** test the live app: the Thief (other users and signed-out visitors try to read or
-   change data, detected with canary text) and the Blind Ghost (keyboard only + axe-core).
+   change data, detected with canary text) and the Listener (keyboard only + axe-core).
 4. Report: Kept / Broken (with proof) / Couldn't check (with why).
 5. Broken promises go to Kiro (hook + MCP) → Kiro fixes → ghosts recheck everything.
 
@@ -51,7 +51,7 @@ tinkr/
 ├── .kiro/{steering,specs,hooks}
 ├── packages/
 │   ├── core/     # pure TS: promise schema, extraction, judging, findings, evidence log
-│   ├── ghosts/   # Node + Playwright: Thief, Blind Ghost, bot Tricksters
+│   ├── ghosts/   # Node + Playwright: Thief, Listener, bot Tricksters
 │   ├── star/     # <TinkrStar/> mascot (React)
 │   ├── mcp/      # MCP server for Kiro
 │   └── cli/      # npx tinkr
@@ -72,7 +72,7 @@ and gets removed once Kiro has scaffolded the new packages.
 ## Milestones (all code by Kiro; Claude Code reviews and runs tests after each task)
 
 ### M0 — Specs (as soon as credits land)
-- [ ] Kiro writes specs: `promises` (schema + extraction), `thief`, `blind-ghost`, `report`, `kiro-loop`, `bots`
+- [ ] Kiro writes specs: `promises` (schema + extraction), `thief`, `listener`, `report`, `kiro-loop`, `bots`
 - [ ] Kiro writes the TinkrStar design + tasks from `.kiro/specs/tinkr-star/requirements.md`
 
 ### M1 — Promises (Nov 26–27)
@@ -87,7 +87,7 @@ and gets removed once Kiro has scaffolded the new packages.
 - [ ] Evidence: screenshots, Playwright trace, request/response pairs
 - [ ] Ownership check: localhost/preview only, or `tinkr-verify` meta tag
 
-### M3 — The Blind Ghost (Nov 29)
+### M3 — The Listener (Nov 29)
 - [ ] axe-core per page; keyboard-only path to each main action
 - [ ] Plain-English findings ("You can't reach 'Save' with the keyboard")
 
@@ -104,7 +104,7 @@ and gets removed once Kiro has scaffolded the new packages.
 ### M6 — CLI, mascot, polish (Dec 2)
 - [ ] `npx tinkr` (reads prompts/spec, confirms, runs, serves report)
 - [ ] TinkrStar states wired to runs (thinking while ghosts run, celebrating when all kept)
-- [ ] Tinkr's own UI passes its own Blind Ghost
+- [ ] Tinkr's own UI passes its own Listener
 
 ### M7 — Ship (Dec 3)
 - [ ] Hosted demo for judges (report + the demo apps)

@@ -58,5 +58,16 @@ real application state passed in by the app. It never animates on its own schedu
 1. A demo page in `packages/star` (or Storybook-free plain Vite page) SHALL show every state at 32 px, 96 px and 240 px.
 2. Tests SHALL check: correct face group shown per state, unique ids across instances, `success` plays once then settles, reduced-motion removes animation classes, keyboard boop works.
 
+## Requirement 7: Ghost crew
+**User story:** As a vibe coder, I want each checker to be a recognisable character so that reports are friendly and easy to scan.
+
+#### Acceptance criteria
+1. The package SHALL also export `<TinkrGhost kind state size? label? />` with `kind` one of `"thief" | "listener" | "grandma" | "owl" | "trickster"`.
+2. Ghosts SHALL match `design/mascot/crew.html`: the same ghost path, ink outline, shading, face language and accessories (Thief mask and torch, Listener headphones and Tab key, Grandma bun, glasses and teacup, Night Owl tufts and phone, Trickster curl and speech bubble).
+3. Ghost `state` SHALL be one of `"idle" | "haunting" | "found" | "clear"`: float; drift with the accessory active; pounce with a pink "!" badge; slump with dizzy sparkles.
+4. A ghost that finds a problem SHALL NOT turn red or look alarming; the "!" badge uses pink `#F5C6D6`.
+5. When the crew is shown with the star, the star state SHALL follow the run: idle → idle, haunting → thinking, found → uncertain, clear → success.
+6. Requirements 1.3–1.5, 4.1–4.4 and 5.1–5.3 apply to ghosts too.
+
 ## Out of scope
 Sound, speech bubbles, physics, 3D, and any mascot behaviour not driven by app state.
