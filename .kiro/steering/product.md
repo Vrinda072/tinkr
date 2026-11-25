@@ -4,41 +4,54 @@ inclusion: always
 
 # Tinkr — Product
 
-**Give your AI coding agent eyes on your desk.**
+**You told the AI what to build. Tinkr makes sure it built that, and that strangers can't get in.**
 
-Tinkr is a starter kit for developers who want to build apps that react to real objects.
-A webcam watches coloured objects on a desk. The developer describes a condition in plain
-English. Tinkr compiles it into a strict rule, watches the desk, and reports live whether
-each condition is satisfied, not satisfied, or uncertain. An MCP server lets coding agents
-such as Kiro see the desk too, so they can build and test physical-world apps against
-real objects.
+Tinkr is for vibe coders: people who build apps by prompting AI agents (Kiro, Lovable, Bolt,
+Cursor, Claude Code), many with little or no coding knowledge. It reads what they asked the
+AI to build (their prompts or Kiro spec), turns that into **promises**, confirms them with
+the builder in plain language, then sends a crew of **ghosts** to check whether the live app
+keeps them. Broken promises come back with proof and go straight to the coding agent to fix,
+and the ghosts check again.
 
-Audience: young developers, students and indie game makers.
+## Why it exists (keep claims to these sources)
+- Vibe-coded apps leak user data. A 2025 study of 1,645 Lovable apps found 170 exposing
+  personal data (CVE-2025-48757); more incidents followed in 2026.
+- Existing scanners check generic known mistakes (exposed keys, security rules missing).
+  They cannot tell whether access is *correct*, because that depends on the builder's intent:
+  user B seeing user A's posts is fine for a forum and a leak for a diary.
+- Two-user access testing exists mainly in paid tools for engineers.
+- Tinkr's difference: it tests **the app's own promises, taken from the builder's own words**.
 
-## The one principle that must never be broken
-- The **LLM compiles** text into a rule. It never decides whether a task succeeded.
-- **Computer vision observes.** It produces a WorldState of tracked objects.
-- A **deterministic evaluator judges.** It uses pure functions over WorldState + EventLog.
+## The principle that must never be broken
+- The **LLM compiles**: prompt/spec text → typed promises, and plans which pages to visit.
+- **Ghosts observe** with deterministic code (browser automation, request replay, canary data,
+  accessibility rules, tool-call logs).
+- **Deterministic code judges.** The LLM is never asked "is this promise kept?".
+- Verdicts: `KEPT`, `BROKEN` (always with evidence), `COULDNT_CHECK` (with the reason).
+  Tinkr never says "safe" or "kept" for something it did not actually test.
 
-If any code asks an LLM "is this done?" or sends camera frames to an LLM, it is wrong.
-This includes the MCP server: it exposes engine results, never raw frames.
+## One engine, two apps (Skeleton Crew)
+- **Tinkr for apps** (`apps/web`): promises about web apps — who can see and change what,
+  paid-only pages, keyboard and screen-reader access.
+- **Tinkr for bots** (`apps/bot`): promises about AI assistants that take actions —
+  "never refund more than $50", "never send an email without my approval" — checked
+  against the bot's actual tool calls, never against what it says.
+- Both use `@tinkr/core`. Neither re-implements promises, verdicts or evidence.
 
-## One kit, two apps (Skeleton Crew)
-- **Tinkr Focus** (`apps/focus`): a focus timer that runs only while your phone (with a
-  coloured sticker on the case) lies face-down in the "away" zone. Picking it up pauses the
-  session. Streaks, session history and pickups per hour.
-- **Tinkr Quest** (`apps/quest`): write a tabletop game's rules in plain English and Tinkr
-  referees the game on the table, e.g. "Blue wins when it reaches the castle zone before red."
-- **Tinkr MCP** (`packages/mcp`): the kit's agent interface, used in the demo to have Kiro
-  build a third app live.
-- Every app imports `@tinkr/core`. No app re-implements tracking or evaluation.
+## The ghost crew
+- **The Thief** (must have): signs up as a second user and as a signed-out visitor and tries
+  to read or change the first user's data, detected with unique canary text.
+- **The Blind Ghost** (must have): keyboard only, plus accessibility rules (axe-core).
+- **Grandma** and **the Night Owl** (nice to have): confusing input; small screen and slow network.
+- **Tricksters** (Tinkr for bots): scripted conversations that push the bot toward breaking a promise.
 
-## Honesty constraints
-- Never fabricate confidence. Quality numbers come from measurable things (blob area, visibility age, frames tracked).
-- Prefer `UNCERTAIN` over a false `SATISFIED`. In Focus, an unseen phone pauses the timer
-  with "Can't see your phone"; it is never counted as a pickup or as focused time.
-- Do not claim industrial-grade accuracy.
+## Safety rules
+- Runs only on apps the user owns: localhost and preview URLs, or a site carrying the
+  `tinkr-verify` meta tag with the user's token.
+- Ghosts use their own test accounts, label everything they create, and clean up.
+  No destructive actions against production.
 
 ## Tone
-Whimsical and polished, like an indie creative tool. Quest is playful. Focus is calm,
-with the star as a quiet companion who reacts to pickups.
+Friendly face, serious evidence. The ghosts and the star mascot (who leads the ghost crew)
+make it approachable; findings are stated in human impact ("Any user can read Priya's
+journal entries"), never jargon. A plain mode turns the theme off.

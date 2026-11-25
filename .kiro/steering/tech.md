@@ -5,50 +5,60 @@ inclusion: always
 # Tinkr — Tech
 
 ## Stack
-- npm workspaces, TypeScript `strict`, ES modules (dependency-free source packages; Vite compiles core directly)
-- Vite + React 18 + Tailwind for apps; Motion for React only where CSS can't do it
-- Zod for every schema that crosses a boundary (LLM output, saved levels, events)
+- npm workspaces, TypeScript `strict`, ES modules
+- Node 20+ for the runner, CLI and MCP server; Vite + React 18 for the apps
+- Playwright for ghosts (browser, network capture, traces, screenshots)
+- axe-core for accessibility rules
+- Zod for every schema that crosses a boundary (LLM output, promises, findings, tool-call logs)
 - Vitest for tests, fast-check for property-based tests
-- No OpenCV for M1: plain canvas `getImageData` + HSV thresholding is enough for matte coloured objects. Revisit only if tests show it fails.
 
 ## Core rules for `packages/core`
-- No React, no DOM access outside `camera/`. Everything else is pure and testable with plain objects.
-- Coordinates are normalised to `[0,1]`, origin top-left, x right, y down.
-- Time is injected (`now: number` in ms). Never call `Date.now()` inside evaluators.
-- Evaluators return `"SATISFIED" | "NOT_SATISFIED" | "UNCERTAIN"` plus a short human-readable `reason`.
-- Any rule that references an object that isn't visible returns `UNCERTAIN`, not `NOT_SATISFIED`.
-- Temporal rules read the EventLog only. They never infer order from the current frame.
-- State transitions are debounced: a condition must hold for `holdMs` (default 300 ms) before a SATISFIED event is emitted, and must fail for `holdMs` before it is revoked.
+- Pure TypeScript: no browser, Playwright or Node-only imports. Ghosts live in `packages/ghosts`.
+- Time is injected. Never call `Date.now()` inside judging code.
+- Judging functions are pure: (promise, observations) → finding.
+- Anything not actually exercised is `COULDNT_CHECK`, never `KEPT`.
+- Every `BROKEN` finding references at least one piece of evidence.
 
-## Key types (keep stable; change only via a spec)
+## Key types (change only via a spec)
 ```ts
-type ObjectId = string;              // calibrated colour label, e.g. "red"
-interface TrackedObject {
-  id: ObjectId;
-  x: number; y: number;              // centroid, normalised
-  bbox: { x: number; y: number; w: number; h: number };
-  area: number;                      // fraction of frame
-  visible: boolean;
-  lastSeen: number;                  // ms
-  quality: number;                   // 0..1 from area stability + visibility, never invented
-}
-interface WorldState { t: number; objects: Record<ObjectId, TrackedObject>; zones: Record<string, Zone>; }
-type Zone = { id: string; x: number; y: number; w: number; h: number };
+type Actor = "owner" | "other_user" | "visitor";          // visitor = signed out
+type Action = "read" | "update" | "delete";
 
-type Rule =
-  | { type: "NEAR";    subject: ObjectId; target: ObjectId; threshold: number }
-  | { type: "BETWEEN"; subject: ObjectId; a: ObjectId; b: ObjectId; tolerance: number }
-  | { type: "INSIDE";  subject: ObjectId; zone: string }
-  | { type: "MOVED_TO"; subject: ObjectId; zone: string }
-  | { type: "BEFORE";  first: Rule; then: Rule }
-  | { type: "ALL";     rules: Rule[] };
+type Source = { from: "prompt" | "spec" | "user"; quote: string };
+
+type TinkrPromise =
+  | { type: "PRIVATE";    resource: string; actions: Action[]; deniedTo: Actor[] }
+  | { type: "ROLE_ONLY";  page: string; allowedRoles: string[] }
+  | { type: "ACCESSIBLE"; page: string; keyboard: boolean; rules: "wcag2aa" }
+  | { type: "BOT_NEVER";  tool: string; unless?: { approvalBy: "user" } }
+  | { type: "BOT_LIMIT";  tool: string; arg: string; max: number };
+
+interface PromiseRecord { id: string; promise: TinkrPromise; source: Source; confirmed: boolean }
+
+type Verdict = "KEPT" | "BROKEN" | "COULDNT_CHECK";
+interface Finding {
+  promiseId: string; ghost: string; verdict: Verdict;
+  reason: string;     // plain English, human impact
+  evidence: string[]; // ids of screenshots, Playwright traces, request/response pairs, tool-call logs
+}
 ```
 
+## How the Thief decides (deterministic)
+1. As `owner`, create content containing a unique canary string (`tinkr-canary-<random>`).
+2. Record the owner's network requests for that resource.
+3. Replay them, and browse, as `other_user` and `visitor`.
+4. Canary found in any page text or response body for a denied actor → `BROKEN`.
+   Replay could not run (sign-up failed, page not found) → `COULDNT_CHECK` with the reason.
+
 ## LLM
-- Called only from `api/compile.ts` (serverless). The key lives in an env var. The provider is set by env.
-- Output must parse with the Zod `Rule` schema built **dynamically** from the currently calibrated object IDs and zones (closed enums). Unknown IDs mean rejection.
-- The compiler may instead return `{ ok: false, reason, clarification? }` for unsupported or ambiguous text.
+- Two jobs only: extracting promises from prompt/spec text, and planning which pages and
+  forms the ghosts visit. Output must parse with Zod; invalid output is rejected, not repaired.
+- Provider and key come from env vars (`.env`, never committed). Plans are cached by
+  app + promise hash so reruns cost nothing.
+- Only text the user supplies is sent to the LLM. App data, canaries and evidence never are.
 
 ## Testing
-- Every evaluator gets unit tests plus at least one fast-check property (e.g. NEAR is symmetric; BETWEEN(a,b) == BETWEEN(b,a)).
-- Integration tests replay recorded WorldState sequences from `packages/core/fixtures/*.json`.
+- Every judging function gets unit tests plus fast-check properties
+  (e.g. a finding with no evidence is never BROKEN; no observation → COULDNT_CHECK).
+- End-to-end tests run the ghosts against the demo apps in `demo/`, which contain known
+  planted bugs, and assert that each one is found and nothing else is reported.

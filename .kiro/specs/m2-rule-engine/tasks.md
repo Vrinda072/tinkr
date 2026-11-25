@@ -1,3 +1,5 @@
+> **Superseded (Nov 25, 2026).** Tinkr changed direction from a camera rule engine to a promise checker for vibe-coded apps (see `PROJECT_PLAN.md`). Kept for history; do not implement.
+
 # Tasks: M2 — Full rule engine
 
 > Each task touches roughly one source file plus its tests. Run `npm test` and

@@ -8,11 +8,14 @@ shine, dot eyes with a white highlight, pink cheeks. That page is the visual ref
 star path generator (`starPath`), the face shapes and the keyframes in it are approved and
 should be reused, not redrawn.
 
+In Tinkr the star leads the ghost crew: it is thinking while ghosts run, celebrates when every
+promise is kept, and looks uncertain when something couldn't be checked.
+
 The component lives in `packages/star` as `@tinkr/star` and is used by both apps. It reacts to
 real application state passed in by the app. It never animates on its own schedule.
 
 ## Requirement 1: Package and API
-**User story:** As an app developer, I want one reusable mascot component so that Quest and Focus share the same character.
+**User story:** As an app developer, I want one reusable mascot component so that Tinkr for apps and Tinkr for bots share the same character.
 
 #### Acceptance criteria
 1. The package SHALL export `<TinkrStar state size? label? onBoop? />` from `@tinkr/star`.
