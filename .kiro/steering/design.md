@@ -1,66 +1,31 @@
 ---
 inclusion: fileMatch
-fileMatchPattern: ["apps/**", "packages/star/**"]
+fileMatchPattern: ["apps/**", "packages/star/**", "design/**"]
 ---
 
 # Tinkr — Design
 
+**`DESIGN.md` at the repo root is the design authority** (tokens, type, frames, motion, rules),
+derived from the approved report screen. `.impeccable/design.json` holds the same system as data.
+Read it before building any screen. Product truth lives in `PRODUCT.md`.
+
 References:
-- `design/mascot/star-directions.html` — mascot; the chosen direction is **A · Butter Bun**.
-  In Tinkr the star leads the ghost crew.
-- `design/mascot/crew-pixel.html` — **the approved mascot reference (Nov 26)**: the star and the ghost
-  crew (Thief, Listener, Grandma, Night Owl, Trickster) as dark pixel art, and how each reacts
-  while waiting, checking, finding a problem, and when a promise is kept.
-  `crew.html` (soft inked look) and the Butter Bun star page are superseded for the characters.
+- `design/mockups/report.html` — **the approved report screen (Nov 26)**: navy pixel look from the
+  builder's "Pixo" reference, plain checks layout (claims list left, selected claim right with
+  steps, screenshot and the evidence sent to Kiro), "You weren't told", "What your app does now".
+- `design/mascot/crew-pixel.html` — the pixel star and ghost crew (Thief, Listener, Grandma,
+  Night Owl, Trickster) and their waiting / checking / found / kept states.
+- Superseded, history only: `design/mockups/index.html`, `design/mascot/crew.html`,
+  `design/mascot/star-directions.html` (the old cream and soft-ink look).
 
-## Pixel character rules
-- Sprites are drawn on a 40 × 40 grid and scaled up with crisp edges (`image-rendering: pixelated`).
-- One outline colour `#0D0A17`; each character has body, shade (bottom-right) and highlight (top-left).
-- Motion moves in whole steps (`steps()`), never smooth tweens, so pixels stay sharp.
-- Headings and character labels use **Pixelify Sans**; body text stays Atkinson Hyperlegible for readability.
-- `design/mockups/report.html` — **the approved report screen (Nov 26)**: summary with the star,
-  claim rows (what you asked / what the AI said / what happened), detail panel with the replay,
-  steps and what was sent to Kiro, "You weren't told", and "What your app does now". Dark pixel
-  theme; verdict colours: true mint, false pink, misleading amber, couldn't check lilac.
-- `design/mockups/index.html` — earlier camera-app mockups. Its tokens, type and overall feel
-  still apply; its screens are superseded. New screens: promise cards, ghost run, report.
-
-## Core idea
-The **report is the hero**. Each promise is a card in the builder's own words, with a
-verdict and, for broken promises, the proof (screenshot, the ghost's steps) right there.
-The ghost crew and the star add warmth around the edges; the evidence is never decorated.
-
-## Tokens
-| Token | Value | Use |
-|---|---|---|
-| cream | `#FFF9F0` | page background |
-| plum | `#34263F` | text, ink, primary buttons |
-| plum-2 / plum-3 | `#5C4B6A` / `#6E5F7A` | secondary text (plum-3 is the lightest allowed for text) |
-| butter | `#FFE49A` | star, star speech bubble |
-| lavender / lav-soft | `#DCCBFF` / `#F1EBFF` | ghost crew accents |
-| mint + `#1F6B4A` | `#CBEBDD` | TRUE / KEPT |
-| amber text `#8A6200` on `#FFF0C2` | | COULDNT_CHECK, MISLEADING |
-| pink + `#9B2F55` | `#F5C6D6` | FALSE / BROKEN. Never use alarm red. |
-
-## Type
-- Headlines: **Bricolage Grotesque** 700–800, tight tracking.
-- Interface and body: **Atkinson Hyperlegible** 400/700.
-- Evidence (requests, responses) may use a monospace face; nothing else does.
-- Sentence case everywhere. No all-caps labels, no `→` on buttons.
-
-## Copy
-- Claim verdicts: True / False / Misleading / Couldn't check. Promise verdicts: Kept / Broken / Couldn't check.
-- The report's main view is three columns per item: what you asked, what the AI said, what happened.
-- Calm wording: "False: clicking 'Create account' shows an error", never "The AI lied".
-- "You weren't told" lists sensitive changes the AI didn't mention, as a list, not an alarm.
-- Findings state human impact first, then the proof: "Any signed-in user can read Priya's
-  journal entries. The Thief opened /entries/12 as another user and saw her canary text."
-- Couldn't-check copy says why and what to do: "The Thief couldn't sign up: the sign-up
-  form needs an invite code. Add a test invite code to let it in."
-- Promise cards use plain yes/no questions: "Should other people be able to see your entries?"
-- No security jargon in the main view (no "BOLA", "IDOR", "RLS"); jargon only in the details.
-
-## Quality floor
-Responsive to 360 px with no horizontal scroll, visible keyboard focus, WCAG AA text contrast,
-`prefers-reduced-motion` respected. Tinkr checks other apps for accessibility, so its own UI
-must pass its own Listener.
+## Rules that matter most
+- Navy `#13235f` shell on a light grid ground; Jersey 15 display, Atkinson Hyperlegible Next body,
+  Atkinson Hyperlegible Mono only for URLs, paths and logs.
+- Pixel-stepped frames (24px SVG border-images on a 4px cell grid, sliced at 8). No rounded
+  corners, no blurred shadows, no emojis; icons are pixel SVGs.
+- Verdict colours (True green, False rose, Misleading amber, Couldn't check slate) mark outcomes only.
+- Motion moves in whole steps (`steps()`), never smooth tweens; all of it stops under reduced motion.
+- Plain words: "False: clicking 'Create account' shows an error", never "the AI lied". No security
+  jargon in the main view.
+- Tinkr checks other apps for accessibility, so its own UI must pass its own Listener:
+  WCAG AA contrast, full keyboard use, visible focus, no horizontal scroll at 360px.

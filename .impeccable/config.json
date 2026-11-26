@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "design/mockups/report.html"
+        ],
+        "createdAt": "2026-11-26T13:47:38.166Z",
+        "reason": "Light pixel grid background is pinned by the builder's Pixo reference (PRODUCT.md brand commitments)"
+      }
+    ]
+  }
+}

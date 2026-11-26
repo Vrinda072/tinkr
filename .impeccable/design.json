@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-26T14:01:19+00:00",
+  "title": "Design System: Tinkr",
+  "extensions": {
+    "colorMeta": {
+      "navy": {
+        "role": "primary",
+        "displayName": "Night Navy",
+        "canonical": "#13235f",
+        "tonalRamp": [
+          "#04091e",
+          "#172344",
+          "#2f3f6d",
+          "#485e9a",
+          "#6880be",
+          "#8ea4d9",
+          "#b7c9f4",
+          "#e1eeff"
+        ]
+      },
+      "navy-raised": {
+        "role": "primary",
+        "displayName": "Raised Navy",
+        "canonical": "#1c3283",
+        "tonalRamp": [
+          "#030823",
+          "#13214c",
+          "#293d79",
+          "#415ca9",
+          "#607ece",
+          "#88a3e7",
+          "#b2c8ff",
+          "#ddeeff"
+        ]
+      },
+      "signal-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "#2f4fc4",
+        "tonalRamp": [
+          "#02052b",
+          "#0e1d59",
+          "#21398b",
+          "#3656c1",
+          "#557ae7",
+          "#7ea1fd",
+          "#a9c7ff",
+          "#d7eeff"
+        ]
+      },
+      "sky": {
+        "role": "secondary",
+        "displayName": "Sky Tint",
+        "canonical": "#dde4fb",
+        "tonalRamp": [
+          "#090b11",
+          "#22252e",
+          "#3d414f",
+          "#5b6172",
+          "#7c8295",
+          "#a0a4b5",
+          "#c5c9d6",
+          "#ebeef8"
+        ]
+      },
+      "mist": {
+        "role": "secondary",
+        "displayName": "Mist Tint",
+        "canonical": "#eef2fd",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#23252a",
+          "#3f4248",
+          "#5e616a",
+          "#7f828b",
+          "#a2a5ac",
+          "#c7c9cf",
+          "#edeef3"
+        ]
+      },
+      "frame-line": {
+        "role": "secondary",
+        "displayName": "Frame Periwinkle",
+        "canonical": "#8a9bd8",
+        "tonalRamp": [
+          "#06091b",
+          "#1c233f",
+          "#353f67",
+          "#505e91",
+          "#707fb5",
+          "#95a3d1",
+          "#bcc8ed",
+          "#e5eeff"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#0b1638",
+        "tonalRamp": [
+          "#060b17",
+          "#1c2439",
+          "#36415d",
+          "#516085",
+          "#7182a8",
+          "#97a5c6",
+          "#bdc9e4",
+          "#e6eeff"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Slate Muted",
+        "canonical": "#4a5578",
+        "tonalRamp": [
+          "#070a16",
+          "#1f2436",
+          "#39415a",
+          "#556081",
+          "#7681a4",
+          "#9aa4c2",
+          "#c0c9e0",
+          "#e8eeff"
+        ]
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Paper Ground",
+        "canonical": "#f4f6fb",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#242527",
+          "#414245",
+          "#606165",
+          "#818286",
+          "#a3a5a8",
+          "#c8c9cc",
+          "#edeef0"
+        ]
+      },
+      "grid": {
+        "role": "neutral",
+        "displayName": "Grid Line",
+        "canonical": "#e3e8f3",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#23252a",
+          "#3f4249",
+          "#5d616a",
+          "#7e828b",
+          "#a1a5ad",
+          "#c6c9cf",
+          "#eceef3"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Dotted Rule",
+        "canonical": "#d9dfee",
+        "tonalRamp": [
+          "#0a0b0f",
+          "#22252b",
+          "#3e424b",
+          "#5c616d",
+          "#7d828f",
+          "#a1a5b0",
+          "#c6c9d2",
+          "#eceef5"
+        ]
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "star-gold": {
+        "role": "tertiary",
+        "displayName": "Star Gold",
+        "canonical": "#f4c542",
+        "tonalRamp": [
+          "#160800",
+          "#362000",
+          "#5b3c00",
+          "#815a00",
+          "#a47c00",
+          "#c2a149",
+          "#e1c786",
+          "#ffedbf"
+        ]
+      },
+      "true-green": {
+        "role": "verdict",
+        "displayName": "True Green",
+        "canonical": "#1c7347",
+        "tonalRamp": [
+          "#001004",
+          "#012e18",
+          "#124e2f",
+          "#277149",
+          "#4b9469",
+          "#7bb590",
+          "#a9d6b8",
+          "#d7f8e2"
+        ]
+      },
+      "true-green-bg": {
+        "role": "verdict",
+        "displayName": "True Green Tint",
+        "canonical": "#dcf2e6",
+        "tonalRamp": [
+          "#070d0a",
+          "#1e2823",
+          "#38463f",
+          "#55665d",
+          "#75877e",
+          "#9aa9a1",
+          "#c0cdc6",
+          "#e8f1ec"
+        ]
+      },
+      "false-rose": {
+        "role": "verdict",
+        "displayName": "False Rose",
+        "canonical": "#b01f3a",
+        "tonalRamp": [
+          "#220002",
+          "#4c0111",
+          "#791426",
+          "#aa2a3d",
+          "#d2505d",
+          "#ed8086",
+          "#ffadb0",
+          "#ffdbdc"
+        ]
+      },
+      "false-rose-bg": {
+        "role": "verdict",
+        "displayName": "False Rose Tint",
+        "canonical": "#fbe1e7",
+        "tonalRamp": [
+          "#10090b",
+          "#2d2224",
+          "#4d3d41",
+          "#6f5b60",
+          "#917c81",
+          "#b2a0a4",
+          "#d4c5c8",
+          "#f6ebee"
+        ]
+      },
+      "misleading-amber": {
+        "role": "verdict",
+        "displayName": "Misleading Amber",
+        "canonical": "#855700",
+        "tonalRamp": [
+          "#160700",
+          "#361f00",
+          "#5b3a02",
+          "#825814",
+          "#a5793b",
+          "#c39e6d",
+          "#e2c49d",
+          "#ffebcf"
+        ]
+      },
+      "misleading-amber-bg": {
+        "role": "verdict",
+        "displayName": "Misleading Amber Tint",
+        "canonical": "#fcefcb",
+        "tonalRamp": [
+          "#0e0b03",
+          "#2a2515",
+          "#49412b",
+          "#6b6044",
+          "#8c8264",
+          "#aea58b",
+          "#d0c9b5",
+          "#f4eedf"
+        ]
+      },
+      "unchecked-slate": {
+        "role": "verdict",
+        "displayName": "Couldn't-check Slate",
+        "canonical": "#475271",
+        "tonalRamp": [
+          "#070b15",
+          "#1f2434",
+          "#394158",
+          "#56607e",
+          "#7682a0",
+          "#9ba5bf",
+          "#c1c9de",
+          "#e8eefe"
+        ]
+      },
+      "unchecked-slate-bg": {
+        "role": "verdict",
+        "displayName": "Couldn't-check Slate Tint",
+        "canonical": "#e5e9f3",
+        "tonalRamp": [
+          "#0a0b0e",
+          "#232529",
+          "#3f4248",
+          "#5e6169",
+          "#7f828a",
+          "#a2a5ac",
+          "#c7c9cf",
+          "#edeef3"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Summary verdict line and opened-check title (40px); 36/34px under 640px."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles in the navy band."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Sub-section heads in the detail."
+      },
+      "verdict": {
+        "displayName": "Verdict",
+        "purpose": "Verdict chip word; claim numbers at 18px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text."
+      },
+      "body-small": {
+        "displayName": "Body small",
+        "purpose": "Meta, steps (14.5px), notes (13.5px)."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons and emphasis."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "URLs, paths, step counters and evidence logs only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "sprite-outline",
+        "value": "drop-shadow(1.5px 0 0 #0b1638) drop-shadow(-1.5px 0 0 #0b1638) drop-shadow(0 1.5px 0 #0b1638) drop-shadow(0 -1.5px 0 #0b1638)",
+        "purpose": "Ink line work around pixel sprites (filter). Not elevation."
+      },
+      {
+        "name": "focus-ring",
+        "value": "outline: 3px solid #2f4fc4; outline-offset: 3px",
+        "purpose": "Focus on every interactive element."
+      },
+      {
+        "name": "evidence-mark",
+        "value": "outline: 3px solid <verdict colour>; outline-offset: 2px",
+        "purpose": "Marks the element that passed or failed inside the screenshot."
+      }
+    ],
+    "frames": {
+      "panel": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%238a9bd8' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\")",
+      "ghost": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\")",
+      "ghost-hover": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\")",
+      "navy": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%2313235f' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\")",
+      "navy-hover": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%232f4fc4' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\")",
+      "white": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\")",
+      "white-hover": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\")"
+    },
+    "motion": [
+      {
+        "name": "detail-swap",
+        "value": "220ms steps(2, end), translateY(6px) to 0",
+        "purpose": "Opened check swaps in when selection changes."
+      },
+      {
+        "name": "ghost-walk",
+        "value": "260ms steps(4, end) on left/top",
+        "purpose": "Ghost sprite moves to each step target during replay (900ms per step)."
+      },
+      {
+        "name": "disclosure-turn",
+        "value": "160ms steps(2, end) rotate(90deg)",
+        "purpose": "Evidence disclosure chevron."
+      },
+      {
+        "name": "press",
+        "value": "translateY(2px)",
+        "purpose": "Button active state."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "prefers-reduced-motion: reduce",
+        "purpose": "Swap, walk, chevron turn and press movement are all removed."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "980px"
+      },
+      {
+        "name": "narrow",
+        "value": "640px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Stepped navy pixel button for the main action on a surface.",
+      "html": "<button class=\"ds-btn-primary\">Re-run checks</button>",
+      "css": ".ds-btn-primary{border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%2313235f' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;background:#13235f padding-box;color:#fff;padding:2px 8px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}.ds-btn-primary:hover{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%232f4fc4' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\");background-color:#2f4fc4}.ds-btn-primary:active{transform:translateY(2px)}.ds-btn-primary:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "White button with a navy pixel outline for secondary actions and filters; pressed fills Sky.",
+      "html": "<button class=\"ds-btn-ghost\" aria-pressed=\"false\">Check this again</button>",
+      "css": ".ds-btn-ghost{border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;background:#fff padding-box;color:#13235f;padding:2px 8px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}.ds-btn-ghost:hover{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\");background-color:#dde4fb}.ds-btn-ghost:active{transform:translateY(2px)}.ds-btn-ghost:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}.ds-btn-ghost[aria-pressed=\"true\"]{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\");background-color:#dde4fb}"
+    },
+    {
+      "name": "Light Button",
+      "kind": "button",
+      "refersTo": "button-light",
+      "description": "Solid white stepped button for actions on the navy header.",
+      "html": "<div style=\"background:#13235f;padding:16px\"><button class=\"ds-btn-light\">Re-run checks</button></div>",
+      "css": ".ds-btn-light{border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;background:#fff padding-box;color:#13235f;padding:2px 8px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap}.ds-btn-light:hover{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\");background-color:#dde4fb}.ds-btn-light:active{transform:translateY(2px)}.ds-btn-light:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}"
+    },
+    {
+      "name": "Filter Group",
+      "kind": "chip",
+      "refersTo": "button-ghost",
+      "description": "Ghost buttons with bold counts; the pressed filter becomes solid navy.",
+      "html": "<div class=\"ds-filters\"><button class=\"ds-f on\">All<b>6</b></button><button class=\"ds-f\">Problems<b>3</b></button><button class=\"ds-f\">True<b>2</b></button></div>",
+      "css": ".ds-filters{display:flex;gap:4px;flex-wrap:wrap}.ds-f{border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;background:#fff padding-box;color:#13235f;padding:2px 8px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-weight:500;font-size:14px;cursor:pointer}.ds-f b{margin-left:4px;font-weight:700}.ds-f:hover{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%2313235f' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\");background-color:#dde4fb}.ds-f.on{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%2313235f' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\");background-color:#13235f;color:#fff}.ds-f:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}"
+    },
+    {
+      "name": "Pixel Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "White container with a periwinkle stepped-corner frame; insets use Paper Ground.",
+      "html": "<div class=\"ds-panel\"><h3>What your app does now</h3><p>Only what the crew actually tried and saw working.</p><div class=\"ds-inset\">Dark mode stays on after a reload.</div></div>",
+      "css": ".ds-panel{background:#fff padding-box;border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 4h8v16H8zM4 8h16v8H4z'/%3E%3Cpath fill='%238a9bd8' d='M8 0h8v4H8zM4 4h4v4H4zM16 4h4v4h-4zM0 8h4v8H0zM20 8h4v8h-4zM4 16h4v4H4zM16 16h4v4h-4zM8 20h8v4H8z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;padding:14px 16px;color:#0b1638;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-size:16px;line-height:1.55;max-width:420px}.ds-panel h3{font-family:'Jersey 15',system-ui,sans-serif;font-weight:400;letter-spacing:.01em;font-size:30px;line-height:1;margin:0 0 4px}.ds-panel p{margin:0 0 12px;color:#4a5578}.ds-inset{background:#f4f6fb;padding:10px 12px}"
+    },
+    {
+      "name": "Check Row",
+      "kind": "custom",
+      "refersTo": "check-row",
+      "description": "List row: verdict tile, claim name and note, pixel claim number; selected fills Sky.",
+      "html": "<div class=\"ds-list\"><button class=\"ds-row\" aria-current=\"true\"><span class=\"ds-vic f\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M1 1h1v1h1v1h2V2h1V1h1v1H7v1H6v2h1v1h1v1H7V7H6V6H5V5H3v1H2v1H1V6H0V5h1V3H0V2h1z\"/></svg></span><span><b>Sign-up with email</b><small>False: Fails at the last step</small></span><span class=\"ds-num\">14·1</span></button><button class=\"ds-row\"><span class=\"ds-vic t\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M0 4h1v1h1v1h1V5h1V4h1V3h1V2h1v1H7v1H6v1H5v1H4v1H3v1H2V7H1V6H0z\"/></svg></span><span><b>Dark mode switch</b><small>True: Works and stays on</small></span><span class=\"ds-num\">14·4</span></button></div>",
+      "css": ".ds-list{display:flex;flex-direction:column;gap:2px;max-width:420px}.ds-row{display:grid;grid-template-columns:28px 1fr auto;gap:12px;align-items:center;text-align:left;background:none;border:0;padding:11px 10px;color:#0b1638;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-size:16px;line-height:1.55;cursor:pointer}.ds-row b{display:block;font-weight:600}.ds-row small{display:block;color:#4a5578;font-size:13.5px}.ds-row:hover{background:#eef2fd}.ds-row[aria-current=\"true\"]{background:#dde4fb}.ds-row:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}.ds-vic{width:28px;height:28px;display:grid;place-items:center}.ds-vic.f{background:#fbe1e7;color:#b01f3a}.ds-vic.t{background:#dcf2e6;color:#1c7347}.ds-num{font-family:'Jersey 15',system-ui,sans-serif;font-weight:400;letter-spacing:.01em;font-size:18px;color:#2f4fc4}"
+    },
+    {
+      "name": "Verdict Chips",
+      "kind": "chip",
+      "refersTo": "verdict-false",
+      "description": "Pixel icon and verdict word on its own tint; the only place verdict colours appear as fills.",
+      "html": "<div class=\"ds-vs\"><span class=\"ds-v t\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M0 4h1v1h1v1h1V5h1V4h1V3h1V2h1v1H7v1H6v1H5v1H4v1H3v1H2V7H1V6H0z\"/></svg>True</span><span class=\"ds-v f\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M1 1h1v1h1v1h2V2h1V1h1v1H7v1H6v2h1v1h1v1H7V7H6V6H5V5H3v1H2v1H1V6H0V5h1V3H0V2h1z\"/></svg>False</span><span class=\"ds-v m\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M3 0h2v5H3zM3 6h2v2H3z\"/></svg>Misleading</span><span class=\"ds-v c\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 8 8\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path fill=\"currentColor\" d=\"M2 0h4v1h1v3H6v1H5v1H3V4h1V3h1V1H3v1H1V1h2zM3 7h2v1H3z\"/></svg>Couldn't check</span></div>",
+      "css": ".ds-vs{display:flex;gap:8px;flex-wrap:wrap}.ds-v{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;font-family:'Jersey 15',system-ui,sans-serif;font-weight:400;letter-spacing:.01em;font-size:20px;line-height:1.1}.ds-v.t{background:#dcf2e6;color:#1c7347}.ds-v.f{background:#fbe1e7;color:#b01f3a}.ds-v.m{background:#fcefcb;color:#855700}.ds-v.c{background:#e5e9f3;color:#475271}"
+    },
+    {
+      "name": "Header Bar",
+      "kind": "nav",
+      "refersTo": "header-bar",
+      "description": "Navy shell bar with star and pixel wordmark, project, mono meta and a light action.",
+      "html": "<header class=\"ds-top\"><span class=\"ds-brand\">Tinkr</span><b>my-journal</b><span class=\"ds-badge\">Demo data</span><span class=\"ds-meta\">localhost:5173</span><button class=\"ds-hbtn\">Re-run checks</button></header>",
+      "css": ".ds-top{background:#13235f;color:#fff;padding:12px 24px;display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;font-size:16px}.ds-top b{font-weight:600}.ds-brand{font-family:'Jersey 15',system-ui,sans-serif;font-weight:400;letter-spacing:.01em;font-size:34px;line-height:1}.ds-badge{font-family:'Jersey 15',system-ui,sans-serif;font-weight:400;letter-spacing:.01em;font-size:16px;line-height:1;padding:3px 7px 2px;background:#1c3283;color:#dbe3ff;box-shadow:0 0 0 2px #3a50a8}.ds-meta{font-family:'Atkinson Hyperlegible Mono',ui-monospace,monospace;font-size:13px;color:#c9d3fb}.ds-hbtn{margin-left:auto;border:8px solid transparent;border-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23fff' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\") 8 fill / 8px / 0 stretch;background:#fff padding-box;color:#13235f;padding:2px 8px;font:600 14px 'Atkinson Hyperlegible Next',system-ui,sans-serif;cursor:pointer}.ds-hbtn:hover{border-image-source:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' shape-rendering='crispEdges'%3E%3Cpath fill='%23dde4fb' d='M8 0h8v4h4v4h4v8h-4v4h-4v4H8v-4H4v-4H0V8h4V4h4z'/%3E%3C/svg%3E\");background-color:#dde4fb}.ds-hbtn:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}"
+    },
+    {
+      "name": "Evidence Screenshot",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Ink-framed browser window; the failing element carries a 3px verdict outline.",
+      "html": "<div class=\"ds-shot\"><div class=\"ds-bar\"><i></i><i></i><i></i><span>localhost:5173/signup</span></div><div class=\"ds-page\"><div class=\"ds-fld\">grandma.test@tinkr.dev</div><span class=\"ds-pbtn\">Create account</span></div></div>",
+      "css": ".ds-shot{border:4px solid #0b1638;background:#fff;max-width:360px;font-family:'Atkinson Hyperlegible Next',system-ui,sans-serif;}.ds-bar{display:flex;align-items:center;gap:6px;padding:6px 8px;background:#dde4fb;font-size:12.5px;color:#4a5578}.ds-bar i{width:8px;height:8px;background:#9aa8d6}.ds-bar span{flex:1;background:#fff;padding:2px 8px;font-family:'Atkinson Hyperlegible Mono',ui-monospace,monospace}.ds-page{padding:16px}.ds-fld{border:1px solid #c9d1e8;padding:7px 10px;margin-bottom:8px;color:#4a5578;font-size:14px}.ds-pbtn{display:inline-block;background:#13235f;color:#fff;padding:7px 12px;font-size:14px;font-weight:600;outline:3px solid #b01f3a;outline-offset:2px}"
+    },
+    {
+      "name": "Evidence Log",
+      "kind": "custom",
+      "refersTo": "evidence-log",
+      "description": "Disclosure opening the mono evidence sent to the agent, on Ink.",
+      "html": "<details class=\"ds-log\" open><summary>See what was sent</summary><pre>Failed at step 4: click “Create account”\nRequest: POST /api/users returned 500</pre></details>",
+      "css": ".ds-log summary{cursor:pointer;color:#2f4fc4;font:600 16px 'Atkinson Hyperlegible Next',system-ui,sans-serif}.ds-log summary:focus-visible{outline:3px solid #2f4fc4;outline-offset:3px}.ds-log pre{margin:8px 0 0;padding:12px;background:#0b1638;color:#e3e8ff;white-space:pre-wrap;font:13px/1.6 'Atkinson Hyperlegible Mono',ui-monospace,monospace}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Night-Shift Arcade",
+    "overview": "Tinkr is a checks page drawn as an 8-bit world. The ground is a pale blue-grey graph-paper grid; the shell is a committed navy that caps the page as a header bar and closes it as a band whose top edge steps up in pixels, with tiny pixel trees and mounds on the horizon. Between those two navy bands sit white panels with stepped pixel corners, a crew of ghost sprites who do the checking, and the Tinkr star who leads them. The look comes from the builder's \"Pixo\" reference (pixel display type, pixel illustration, light grid ground, a drenched band with a stepped edge), with navy in place of its pink.\n\nThe pixel world is the costume, not the reading surface. Headlines, verdicts, and claim numbers wear the pixel face; everything a builder must actually read (claims, steps, notes) is set in a legibility face at a calm 16px. Density is moderate: a two-column work surface (list of checks, then the opened check) that a beginner can scan and a developer can drill into. Colour beyond navy and its blue tints is rationed to the four verdicts, so a glance at the list reads as a scoreboard.\n\nMotion is stepped, never eased: the detail swaps in two steps, the ghost walks the replay in four, the disclosure chevron turns in two. Everything snaps to the pixel.",
+    "keyCharacteristics": [
+      "Graph-paper grid ground (24px squares) under white pixel-framed panels.",
+      "Navy shell top and bottom; the footer band has a pixel-stepped top edge and pixel scenery.",
+      "Square everything: zero radius, corners cut in 4px pixel steps by SVG border-images.",
+      "Pixel display type for headings and verdicts only; hyperlegible body for all reading.",
+      "Ghost crew and star sprites, outlined in ink, as the product's characters.",
+      "Four verdict colours, each a dark text hue on a pale tint.",
+      "Stepped (`steps()`) timing on every transition."
+    ],
+    "rules": [
+      {
+        "name": "The Verdict Reserve Rule",
+        "body": "Green, rose, amber and slate mean an outcome and nothing else: verdict chips and icons, step results, the outline marking the element that passed or failed in the screenshot, and the amber flag on changes the agent did not mention. They are never decoration, never a brand accent, never a button.",
+        "section": "colors"
+      },
+      {
+        "name": "The Navy Shell Rule",
+        "body": "Navy is the frame of the world (header, footer band, primary actions). Interior surfaces are white and blue tints; a panel is never filled navy.",
+        "section": "colors"
+      },
+      {
+        "name": "The Costume and Reading Rule",
+        "body": "Jersey 15 is for headings, verdict words, claim numbers and the wordmark; it never sets a sentence a builder has to read. Anything longer than a title is Atkinson Hyperlegible Next.",
+        "section": "typography"
+      },
+      {
+        "name": "The Evidence Mono Rule",
+        "body": "Mono appears only where the text is machine truth: URLs, paths, logs, step counters. It is never used for tone.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Arcade Rule",
+        "body": "Nothing floats. An element is separated by a pixel frame, an ink outline or a tint, never by a blurred shadow. A pressed button moves down 2px instead of losing a shadow.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Stepped Corner Rule",
+        "body": "Every corner is a pixel staircase in 4px steps. A `border-radius` anywhere breaks the world.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "**Do** cut every corner in 4px pixel steps with the 24px SVG border-image frames (sliced at 8).",
+      "**Do** set headings, verdict words, claim numbers and the wordmark in Jersey 15, and every readable sentence in Atkinson Hyperlegible Next at 16px.",
+      "**Do** keep green, rose, amber and slate for outcomes only, as a dark hue on its own pale tint.",
+      "**Do** use `steps()` timing for motion, and drop movement under `prefers-reduced-motion`.",
+      "**Do** keep navy as the shell: header bar, footer band with its stepped edge, primary buttons.",
+      "**Do** draw icons as pixel SVG paths with `shape-rendering: crispEdges`.",
+      "**Do** use the 3px Signal Blue outline (offset 3px) for focus on every interactive element."
+    ],
+    "donts": [
+      "**Don't** use `border-radius` or soft blurred shadows; separate with pixel frames, ink outlines and tints.",
+      "**Don't** use a verdict colour as decoration, a brand accent or a button fill.",
+      "**Don't** set body copy, steps or notes in the pixel face.",
+      "**Don't** use mono for anything but URLs, paths, counters and logs.",
+      "**Don't** use emojis anywhere in the interface; characters and icons are pixel art.",
+      "**Don't** use eased or springy motion; every transition snaps in steps."
+    ]
+  }
+}
