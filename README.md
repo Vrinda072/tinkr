@@ -21,6 +21,13 @@ Built on one engine (Kiroween 2026, Skeleton Crew):
 - **Tinkr for apps** (`apps/web`): who can see and change what in your web app.
 - **Tinkr for bots** (`apps/bot`): what your AI assistant is allowed to do, checked against what it actually did.
 
+## Where you'll use it
+
+- **Kiro:** install the Tinkr Power (Powers → Add Custom Power → this repo). The crew checks after every agent change and Kiro fixes what they find.
+- **Claude Code:** install the plugin, then `/tinkr`.
+- **Codex:** install the skill, then `$tinkr`.
+- **Anything else** (Lovable, Bolt, Cursor): `npx tinkr`.
+
 Tinkr only runs against apps you own (local, preview, or verified sites).
 
 > Status: early development. See [PROJECT_PLAN.md](PROJECT_PLAN.md).

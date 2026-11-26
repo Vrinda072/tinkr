@@ -11,6 +11,10 @@ packages/
   star/      # <TinkrStar state=… /> mascot (React)
   mcp/       # MCP server for Kiro: list_promises, run_ghosts, get_findings (with evidence)
   cli/       # `npx tinkr` — reads prompts/spec, confirms promises, runs ghosts, serves the report
+integrations/            # thin wrappers only; no engine logic here
+  kiro-power/            # POWER.md, mcp.json, steering (promises), hooks (run ghosts after agent edits)
+  claude-plugin/         # skill `/tinkr`, Stop hook, MCP config
+  codex-skill/           # SKILL.md + MCP config; must work without hooks
 apps/
   web/       # Tinkr for apps — promise cards, ghost run, report with proof
   bot/       # Tinkr for bots — bot promises, trickster runs, tool-call evidence

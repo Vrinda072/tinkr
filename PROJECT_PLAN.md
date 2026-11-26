@@ -53,8 +53,12 @@ tinkr/
 │   ├── core/     # pure TS: promise schema, extraction, judging, findings, evidence log
 │   ├── ghosts/   # Node + Playwright: Thief, Listener, bot Tricksters
 │   ├── star/     # <TinkrStar/> mascot (React)
-│   ├── mcp/      # MCP server for Kiro
+│   ├── mcp/      # MCP server (shared by every agent tool)
 │   └── cli/      # npx tinkr
+├── integrations/
+│   ├── kiro-power/      # POWER.md + mcp.json + steering + hooks
+│   ├── claude-plugin/   # skill (/tinkr) + hooks + MCP config
+│   └── codex-skill/     # SKILL.md + MCP config (+ hooks.json where enabled)
 ├── apps/
 │   ├── web/      # Tinkr for apps
 │   └── bot/      # Tinkr for bots
@@ -62,6 +66,25 @@ tinkr/
     ├── journal/      # vibe-coded journal app with planted bugs
     └── support-bot/  # AI support bot with planted bugs
 ```
+
+## How people get Tinkr (decided Nov 26)
+
+Tinkr lives inside the tools vibe coders already use. One engine (promises, ghosts, report,
+MCP server); each tool gets a thin wrapper.
+
+| Where | Package | What the user does | What happens |
+|---|---|---|---|
+| **Kiro** (main, for the hackathon) | **Kiro Power** (POWER.md, MCP config, steering, hooks), installed from the GitHub URL via Powers → Add Custom Power | One click to install | Steering teaches Kiro the confirmed promises; a hook runs the ghosts after every agent change; Kiro reads findings over MCP and fixes them |
+| **Claude Code** | **Plugin** (skill + hooks + MCP) | One install command; `/tinkr` to check on demand | Same loop as Kiro; the Stop hook runs the ghosts when the agent finishes |
+| **Codex** | **Skill** (`SKILL.md`) + MCP server | Install the skill; `$tinkr` to check | Checks on demand; automatic runs only where Codex hooks are enabled |
+| **Lovable, Bolt, Cursor, anyone** | **`npx tinkr`** | One command, or paste a preview URL | Opens the report (with the pixel crew) in the browser |
+
+The everyday loop: ask the AI for something → it says "Done ✅" → the crew checks
+automatically → "3 of 4 true, 1 false" with a replay → the agent fixes the false one → recheck.
+
+Facts checked Nov 26: Kiro Powers bundle MCP + POWER.md + steering + hooks and install from a
+public GitHub URL (kiro.dev/docs/powers). Codex supports skills and plugins; Codex hooks are
+reported to be behind a feature flag, so the Codex wrapper must work without them.
 
 What carries over from the camera prototype: the principle (LLM compiles, code judges,
 "couldn't check" instead of guessing), Zod-validated schemas, the EventLog idea (now the
@@ -91,18 +114,23 @@ and gets removed once Kiro has scaffolded the new packages.
 - [ ] axe-core per page; keyboard-only path to each main action
 - [ ] Plain-English findings ("You can't reach 'Save' with the keyboard")
 
-### M4 — Report + Kiro loop (Nov 30)
+### M4 — Report + Kiro Power (Nov 30)
 - [ ] Report view: Kept / Broken / Couldn't check, proof inline
 - [ ] MCP server: `list_promises`, `run_ghosts`, `get_findings`
-- [ ] Kiro hook: rerun ghosts after agent edits; Kiro fixes the demo bugs live
+- [ ] Kiro Power in `integrations/kiro-power`: POWER.md, MCP config, promises steering, hook
+      that reruns the ghosts after agent edits
+- [ ] Installs from the GitHub URL into a clean Kiro; Kiro fixes the demo bugs live
 
 ### M5 — Tinkr for bots (Dec 1)
 - [ ] Demo support bot with tool calls (refund, send_email) logged
 - [ ] `BOT_NEVER` / `BOT_LIMIT` promises judged on the tool-call log
 - [ ] Trickster scripts that push the bot to break them
 
-### M6 — CLI, mascot, polish (Dec 2)
+### M6 — Other tools, mascot, polish (Dec 2)
 - [ ] `npx tinkr` (reads prompts/spec, confirms, runs, serves report)
+- [ ] Claude Code plugin in `integrations/claude-plugin` (skill `/tinkr`, Stop hook, MCP config)
+- [ ] Codex skill in `integrations/codex-skill` (SKILL.md, MCP config; works without hooks)
+- [ ] README install section for all four
 - [ ] TinkrStar states wired to runs (thinking while ghosts run, celebrating when all kept)
 - [ ] Tinkr's own UI passes its own Listener
 
@@ -113,11 +141,13 @@ and gets removed once Kiro has scaffolded the new packages.
 
 ## Cut list (in order, if behind)
 1. Grandma / Night Owl ghosts (already nice-to-have)
-2. CLI → run from the web app only
-3. Bot Tricksters → fixed scripted conversations
-4. Mascot extra states (keep idle / thinking / success / uncertain)
+2. Codex skill (document it as "coming next")
+3. Claude Code plugin (same)
+4. Bot Tricksters → fixed scripted conversations
+5. Mascot extra states (keep idle / thinking / success / uncertain)
 
-Never cut: promise extraction, the Thief, proof on every broken promise, the Kiro fix loop,
+Never cut: promise extraction, the Thief, proof on every broken promise, the Kiro Power and
+its fix loop, `npx tinkr`,
 Tinkr for bots (minimum version), tests, the `.kiro` artifacts.
 
 ## Top risks

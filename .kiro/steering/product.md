@@ -38,6 +38,12 @@ and the ghosts check again.
   against the bot's actual tool calls, never against what it says.
 - Both use `@tinkr/core`. Neither re-implements promises, verdicts or evidence.
 
+## Where it runs
+Inside the tools vibe coders already use, all sharing one engine and one MCP server:
+a **Kiro Power** (main), a **Claude Code plugin**, a **Codex skill**, and `npx tinkr` for
+everyone else (Lovable, Bolt, Cursor). Wrappers stay thin: they install, trigger runs and
+pass findings to the agent. All judging happens in `packages/core`.
+
 ## The ghost crew
 - **The Thief** (must have): signs up as a second user and as a signed-out visitor and tries
   to read or change the first user's data, detected with unique canary text.
