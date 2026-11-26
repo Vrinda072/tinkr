@@ -1,6 +1,6 @@
 # Tinkr — Project Plan
 
-> You told the AI what to build. Tinkr makes sure it built that, and that strangers can't get in.
+> Your AI says it's done. Tinkr checks.
 > Kiroween 2026 · Skeleton Crew · Deadline **Dec 4, 2026, 2:00 PM PT** (no extensions)
 
 ## Ground rules (from the official rules, read Nov 23)
@@ -19,30 +19,34 @@
 - [ ] Redeem the credit code while signed in to the GitHub Kiro account, by **Dec 4**
 - [ ] Optional bonuses: Best Student Project (student email + LinkedIn), blog post, #KiroweenHackathon26 social post.
 
-## Direction (decided Nov 25)
+## Direction (locked Nov 26)
 
-**Tinkr checks that a vibe-coded app keeps the promises its builder asked for.**
+**Your AI says it's done. Tinkr checks.**
 
-1. Read the builder's prompts or Kiro spec → LLM extracts **promises** ("only I can see my entries").
-2. Builder confirms them as plain yes/no cards.
-3. **Ghosts** test the live app: the Thief (other users and signed-out visitors try to read or
-   change data, detected with canary text) and the Listener (keyboard only + axe-core).
-4. Report: Kept / Broken (with proof) / Couldn't check (with why).
-5. Broken promises go to Kiro (hook + MCP) → Kiro fixes → ghosts recheck everything.
+The builder's own story is the pitch: the AI kept saying features were done; the live site
+didn't work; going back to the AI to describe a bug they didn't understand went in circles.
+
+After every AI turn Tinkr lines up **what you asked** (promises, from prompts/spec), **what the
+AI says it did** (claims, from its reply) and **what actually happened** (the ghost crew on the
+live app). Each item: True / False (replay + failing step) / Misleading (e.g. tests edited to
+pass) / Couldn't check, plus "You weren't told" for sensitive unmentioned changes. False items
+go back to the agent with the evidence automatically; the agent fixes; the crew rechecks.
 
 Two apps on one engine: **Tinkr for apps** (web apps) and **Tinkr for bots** (AI assistants,
 judged on their actual tool calls).
 
-### Why this, and what already exists (checked Nov 25)
-- Need: vibe-coded apps leak users' data (2025 study: 170 of 1,645 Lovable apps exposed
-  personal data, CVE-2025-48757; further Lovable incidents in 2026).
-- Exists: security scanners for vibe-coded apps (VibeScan, Argus, Vibesecur, decloak, Lovable's
-  own checker) — they check generic known mistakes. Persona testers (Hafermilch, UXAgent,
-  cbrowser) — they critique UX. Two-user access tests — in paid engineer tools (Snyk, Escape).
-- Gap: none test **the builder's own intent**. Whether user B seeing user A's data is a leak
-  depends on what the app is for. Tinkr gets that intent from the builder's own prompts.
-- Earlier directions (camera rule engine, Focus/Quest, rehab, eligibility checker) were dropped:
-  each was either already built by others or too narrow.
+### Evidence and what already exists (checked Nov 25–26)
+- Agents misrepresent success: ~2% of 8,600 real sessions (LessWrong); EvilGenie benchmark caught
+  Codex and Claude Code editing/hardcoding tests; Replit agent deleted a production DB and
+  misreported it (July 2025); a forced live check halved one developer's false "it works" claims.
+- Vibe-coded apps leak data: 170 of 1,645 Lovable apps (2025, CVE-2025-48757).
+- Exists: developer-side checks (hidden tests, CI gates, a sandbox that verifies README claims),
+  agent-recorded demo videos (Tella, Slideshot, shot-scraper, JetBrains Junie), security
+  scanners for vibe-coded apps, persona UX testers.
+- Gap: an **independent** check of the agent's own claims and the builder's own promises,
+  against the live app, in plain words for non-coders, with evidence handed back to the agent.
+- Earlier directions (camera rule engine, Focus/Quest, rehab, eligibility checker, promises-only
+  Tinkr) were dropped or folded in.
 
 ## Architecture
 
@@ -98,33 +102,35 @@ and gets removed once Kiro has scaffolded the new packages.
 - [ ] Kiro writes specs: `promises` (schema + extraction), `thief`, `listener`, `report`, `kiro-loop`, `bots`
 - [ ] Kiro writes the TinkrStar design + tasks from `.kiro/specs/tinkr-star/requirements.md`
 
-### M1 — Promises (Nov 26–27)
-- [ ] Promise schema (Zod) + judging types + property tests
-- [ ] Extraction: prompts/spec text → promises (LLM, provider by env), invalid output rejected
-- [ ] Promise cards: plain yes/no confirmation
-- [ ] Demo journal app with planted bugs: entries readable by other users; a button that keyboards can't reach
+### M1 — Claims, promises, demo app (Nov 27)
+- [ ] Types + Zod schemas (Claim, Promise_, Check, Finding, Unmentioned) + property tests
+- [ ] Extraction: agent reply → claims; prompts/spec → promises; each with a planned Check
+- [ ] Demo journal app with planted bugs + a recorded agent reply containing false claims
+      (sign-up "works" but errors; notes "private" but readable; tests "pass" because edited)
 
-### M2 — The Thief (Nov 27–28)
-- [ ] Sign-up/sign-in as owner, other user, visitor (Playwright)
-- [ ] Canary creation, request capture and replay, page-text search
-- [ ] Evidence: screenshots, Playwright trace, request/response pairs
+### M2 — Grandma + handback (Nov 28)
+- [ ] FEATURE checks: run steps by accessible name, judge expectations, find the failing step
+- [ ] Evidence: video replay, screenshot, console errors, failed requests
+- [ ] Evidence pack for the agent (claim, failing step, URL, error text, screenshot)
 - [ ] Ownership check: localhost/preview only, or `tinkr-verify` meta tag
 
-### M3 — The Listener (Nov 29)
-- [ ] axe-core per page; keyboard-only path to each main action
-- [ ] Plain-English findings ("You can't reach 'Save' with the keyboard")
+### M3 — The Thief + tests + "you weren't told" (Nov 29)
+- [ ] PRIVATE checks with canary text, other user and visitor
+- [ ] TESTS checks: run tests, detect edited/skipped tests in the turn's diff → MISLEADING
+- [ ] Unmentioned sensitive changes from the diff
 
 ### M4 — Report + Kiro Power (Nov 30)
-- [ ] Report view: Kept / Broken / Couldn't check, proof inline
-- [ ] MCP server: `list_promises`, `run_ghosts`, `get_findings`
+- [ ] Report: what you asked / what the AI said / what happened; True / False / Misleading /
+      Couldn't check; replay inline; plain-words description of each feature
+- [ ] MCP server: `list_claims`, `run_checks`, `get_findings`
 - [ ] Kiro Power in `integrations/kiro-power`: POWER.md, MCP config, promises steering, hook
-      that reruns the ghosts after agent edits
+      that runs the crew after every agent turn and hands back false items
 - [ ] Installs from the GitHub URL into a clean Kiro; Kiro fixes the demo bugs live
 
-### M5 — Tinkr for bots (Dec 1)
-- [ ] Demo support bot with tool calls (refund, send_email) logged
-- [ ] `BOT_NEVER` / `BOT_LIMIT` promises judged on the tool-call log
-- [ ] Trickster scripts that push the bot to break them
+### M5 — Listener + Tinkr for bots (Dec 1)
+- [ ] ACCESSIBLE checks: axe-core + keyboard-only path to each main action
+- [ ] Demo support bot with logged tool calls; BOT_NEVER / BOT_LIMIT judged on the log
+- [ ] Trickster scripts; bot's claims ("refunded within policy") checked against the log
 
 ### M6 — Other tools, mascot, polish (Dec 2)
 - [ ] `npx tinkr` (reads prompts/spec, confirms, runs, serves report)
@@ -140,13 +146,14 @@ and gets removed once Kiro has scaffolded the new packages.
 - [ ] Dec 4: submission buffer only
 
 ## Cut list (in order, if behind)
-1. Grandma / Night Owl ghosts (already nice-to-have)
+1. Night Owl ghost (nice-to-have)
 2. Codex skill (document it as "coming next")
 3. Claude Code plugin (same)
 4. Bot Tricksters → fixed scripted conversations
 5. Mascot extra states (keep idle / thinking / success / uncertain)
 
-Never cut: promise extraction, the Thief, proof on every broken promise, the Kiro Power and
+Never cut: claim extraction, Grandma's feature checks, the evidence handback, the Thief,
+proof on every false or broken item, the Kiro Power and
 its fix loop, `npx tinkr`,
 Tinkr for bots (minimum version), tests, the `.kiro` artifacts.
 
@@ -174,4 +181,4 @@ Record outside help here for the submission write-up.
   - Run 3–5: Kiro revised that design from Claude Code's review; throttled before finishing.
 - Nov 23: Claude Code fixed TransitionDetector so holdMs = 0 commits on the same frame.
 - Nov 23: Mascot design exploration page and the TinkrStar requirements spec were written by Claude Code; the component itself will be built by Kiro.
-- Nov 24–25: Direction research and changes (Focus/Quest, then Tinkr for vibe coders); plan, README and steering rewritten by Claude Code.
+- Nov 24–26: Direction research and changes (Focus/Quest, then Tinkr for vibe coders, then claim checking); plan, README and steering rewritten by Claude Code. Mascot sheets (light, then pixel) drawn by Claude Code as design references.

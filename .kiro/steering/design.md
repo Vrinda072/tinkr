@@ -34,9 +34,9 @@ The ghost crew and the star add warmth around the edges; the evidence is never d
 | plum-2 / plum-3 | `#5C4B6A` / `#6E5F7A` | secondary text (plum-3 is the lightest allowed for text) |
 | butter | `#FFE49A` | star, star speech bubble |
 | lavender / lav-soft | `#DCCBFF` / `#F1EBFF` | ghost crew accents |
-| mint + `#1F6B4A` | `#CBEBDD` | KEPT |
-| amber text `#8A6200` on `#FFF0C2` | | COULDNT_CHECK |
-| pink + `#9B2F55` | `#F5C6D6` | BROKEN. Never use alarm red. |
+| mint + `#1F6B4A` | `#CBEBDD` | TRUE / KEPT |
+| amber text `#8A6200` on `#FFF0C2` | | COULDNT_CHECK, MISLEADING |
+| pink + `#9B2F55` | `#F5C6D6` | FALSE / BROKEN. Never use alarm red. |
 
 ## Type
 - Headlines: **Bricolage Grotesque** 700–800, tight tracking.
@@ -45,7 +45,10 @@ The ghost crew and the star add warmth around the edges; the evidence is never d
 - Sentence case everywhere. No all-caps labels, no `→` on buttons.
 
 ## Copy
-- Status words: Kept / Broken / Couldn't check.
+- Claim verdicts: True / False / Misleading / Couldn't check. Promise verdicts: Kept / Broken / Couldn't check.
+- The report's main view is three columns per item: what you asked, what the AI said, what happened.
+- Calm wording: "False: clicking 'Create account' shows an error", never "The AI lied".
+- "You weren't told" lists sensitive changes the AI didn't mention, as a list, not an alarm.
 - Findings state human impact first, then the proof: "Any signed-in user can read Priya's
   journal entries. The Thief opened /entries/12 as another user and saw her canary text."
 - Couldn't-check copy says why and what to do: "The Thief couldn't sign up: the sign-up
