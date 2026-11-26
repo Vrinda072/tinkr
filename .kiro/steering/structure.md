@@ -10,8 +10,8 @@ packages/
   ghosts/    # Node + Playwright: Grandma (feature checks), Thief, Listener (axe-core), Night Owl; bot Tricksters
   # claims come from the agent reply; promises from prompts/spec; both judged in core
   star/      # <TinkrStar state=… /> mascot (React)
-  mcp/       # MCP server for Kiro: list_promises, run_ghosts, get_findings (with evidence)
-  cli/       # `npx tinkr` — reads prompts/spec, confirms promises, runs ghosts, serves the report
+  mcp/       # MCP server: list_claims, run_checks, get_findings (with evidence packs)
+  cli/       # `npx tinkr` — reads the agent reply + prompts/spec, runs the crew, serves the report
 integrations/            # thin wrappers only; no engine logic here
   kiro-power/            # POWER.md, mcp.json, steering (promises), hooks (run ghosts after agent edits)
   claude-plugin/         # skill `/tinkr`, Stop hook, MCP config
