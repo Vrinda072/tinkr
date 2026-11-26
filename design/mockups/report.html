@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tinkr report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #120e1d; --night-2: #1c1630; --night-3: #241d3a; --line: #33295a;
+    --text: #f1eaff; --text-2: #c3b8e0; --ink: #0d0a17; --focus: #ffe08a;
+    --true-bg: #173a2c; --true-ink: #9fe8c2; --true-edge: #2f6b52;
+    --false-bg: #4a1f33; --false-ink: #ffb3cc; --false-edge: #8a3a5c;
+    --mis-bg: #3d3112; --mis-ink: #ffd77a; --mis-edge: #7a6122;
+    --cc-bg: #2a2350; --cc-ink: #d6caf5; --cc-edge: #4d4285;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--night); color: var(--text); font-family: "Atkinson Hyperlegible", system-ui, sans-serif; font-size: 16px; }
+  .pix { font-family: "Pixelify Sans", system-ui, sans-serif; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  /* top bar */
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 12px 20px; border-bottom: 1px solid var(--line); background: #150f22; }
+  .brand { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 22px; }
+  .brand .sprite { width: 34px; }
+  .where { display: flex; gap: 8px; flex-wrap: wrap; color: var(--text-2); font-size: 14px; }
+  .where span { background: var(--night-3); border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; }
+  .top .again { margin-left: auto; background: var(--text); color: var(--night); border: 0; border-radius: 6px; padding: 9px 14px; font-weight: 700; cursor: pointer; }
+
+  main { max-width: 1240px; margin: 0 auto; padding: 22px 20px 64px; }
+
+  /* summary */
+  .summary { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; background: var(--night-2);
+    border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
+  .summary .sprite { width: 92px; }
+  .summary h1 { font-size: clamp(22px, 3vw, 30px); margin: 0 0 6px; line-height: 1.2; font-weight: 700; }
+  .summary p { margin: 0; color: var(--text-2); line-height: 1.5; }
+  .counts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .count { border-radius: 6px; padding: 5px 10px; font-size: 15px; border: 1px solid; }
+  .handback { display: flex; align-items: center; gap: 10px; margin-top: 12px; background: var(--night-3); border: 1px dashed var(--line);
+    border-radius: 8px; padding: 8px 12px; color: var(--text); width: fit-content; max-width: 100%; }
+  .handback .sprite { width: 28px; flex: none; }
+  @media (max-width: 680px) {
+    .summary { grid-template-columns: 1fr; gap: 6px; padding: 14px; }
+    .summary > .sprite { width: 64px; }
+    .top .again { margin-left: 0; }
+  }
+
+  [data-v="true"] { --v-bg: var(--true-bg); --v-ink: var(--true-ink); --v-edge: var(--true-edge); }
+  [data-v="false"] { --v-bg: var(--false-bg); --v-ink: var(--false-ink); --v-edge: var(--false-edge); }
+  [data-v="mis"] { --v-bg: var(--mis-bg); --v-ink: var(--mis-ink); --v-edge: var(--mis-edge); }
+  [data-v="cc"] { --v-bg: var(--cc-bg); --v-ink: var(--cc-ink); --v-edge: var(--cc-edge); }
+  .count { background: var(--v-bg); color: var(--v-ink); border-color: var(--v-edge); }
+
+  /* layout */
+  .layout { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 18px; margin-top: 18px; align-items: start; }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+  .section-title { font-size: 20px; font-weight: 700; margin: 0 0 10px; }
+
+  /* claim rows */
+  .heads, .row { display: grid; grid-template-columns: 1fr 1.15fr 1.35fr; gap: 12px; }
+  .heads { color: var(--text-2); font-size: 14px; padding: 0 14px 6px; }
+  .rows { display: flex; flex-direction: column; gap: 8px; }
+  .row { width: 100%; text-align: left; background: var(--night-2); border: 1px solid var(--line); border-left: 4px solid var(--v-edge);
+    border-radius: 10px; padding: 12px 14px; cursor: pointer; line-height: 1.45; }
+  .row:hover { background: #211a38; }
+  .row[aria-selected="true"] { background: #261e42; border-color: var(--v-edge); box-shadow: 0 0 0 1px var(--v-edge); }
+  .row .label { display: none; color: var(--text-2); font-size: 13px; margin-bottom: 2px; }
+  .asked { color: var(--text-2); }
+  .said { color: var(--text); }
+  .found { display: flex; gap: 8px; align-items: flex-start; }
+  .found .sprite { width: 30px; flex: none; margin-top: -2px; }
+  .stamp { display: inline-block; background: var(--v-bg); color: var(--v-ink); border: 2px solid var(--v-edge); border-radius: 4px;
+    padding: 1px 7px; font-size: 15px; font-weight: 700; margin-bottom: 3px; }
+  .found .why { color: var(--text-2); font-size: 15px; }
+  @media (max-width: 680px) {
+    .heads { display: none; }
+    .row { grid-template-columns: 1fr; gap: 8px; }
+    .row .label { display: block; }
+  }
+
+  /* detail panel */
+  .detail { position: sticky; top: 14px; background: var(--night-2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .detail h2 { margin: 6px 0 4px; font-size: 22px; font-weight: 700; line-height: 1.25; }
+  .detail .who { display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 15px; }
+  .detail .who .sprite { width: 30px; }
+  .detail p { color: var(--text-2); line-height: 1.55; margin: 8px 0 0; }
+
+  .browser { margin-top: 14px; border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; background: #f6f1ff; color: #241b33; }
+  .bar { display: flex; align-items: center; gap: 6px; background: #d9d0ec; padding: 6px 8px; font-size: 13px; }
+  .bar i { width: 9px; height: 9px; border-radius: 2px; background: #9b8fb8; display: block; }
+  .bar .url { flex: 1; background: #fff; border-radius: 4px; padding: 3px 8px; color: #4a3f60; }
+  .page { position: relative; padding: 16px 18px 20px; min-height: 196px; }
+  .page h3 { margin: 0 0 10px; font-size: 18px; }
+  .field { border: 1px solid #c9bfe0; background: #fff; border-radius: 5px; padding: 7px 9px; margin-bottom: 8px; font-size: 14px; color: #5a5070; }
+  .btn { display: inline-block; background: #3e2f63; color: #fff; border-radius: 5px; padding: 7px 12px; font-size: 14px; font-weight: 700; }
+  .toast { margin-top: 10px; background: #ffe1ea; color: #8a1f45; border: 1px solid #f0a7bf; border-radius: 5px; padding: 7px 10px; font-size: 14px; font-weight: 700; }
+  .note-card { background: #fff; border: 1px solid #c9bfe0; border-radius: 6px; padding: 10px 12px; font-size: 14px; }
+  .note-card b { display: block; margin-bottom: 4px; }
+  .ghost-cursor { position: absolute; width: 34px; right: 14px; bottom: 10px; }
+  .hl { box-shadow: 0 0 0 3px #ff7aa8; }
+  .hl-ok { box-shadow: 0 0 0 3px #46a874; }
+
+  .steps { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .steps li { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; background: var(--night-3); border: 1px solid var(--line);
+    border-radius: 6px; padding: 7px 10px; font-size: 15px; line-height: 1.4; }
+  .steps .mark { font-family: "Pixelify Sans", sans-serif; font-weight: 700; text-align: center; border-radius: 4px; }
+  .steps .ok .mark { color: var(--true-ink); }
+  .steps .bad { border-color: var(--false-edge); background: #2e1626; }
+  .steps .bad .mark { color: var(--false-ink); }
+  .steps .now { outline: 2px solid var(--focus); outline-offset: 1px; }
+  .replay-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .replay { background: var(--night-3); border: 1px solid var(--line); border-radius: 6px; padding: 7px 12px; cursor: pointer; font-weight: 700; }
+  .evidence { margin-top: 14px; }
+  .evidence summary { cursor: pointer; font-weight: 700; padding: 6px 0; }
+  .evidence pre { margin: 6px 0 0; background: #0f0b19; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; font-size: 13px;
+    line-height: 1.5; color: #e4dcf7; white-space: pre-wrap; word-break: break-word; }
+  .sent { display: flex; align-items: center; gap: 8px; margin-top: 14px; background: var(--cc-bg); color: var(--cc-ink); border: 1px solid var(--cc-edge);
+    border-radius: 8px; padding: 8px 12px; font-size: 15px; }
+  .sent .sprite { width: 26px; }
+
+  /* lower sections */
+  .lower { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  @media (max-width: 960px) { .lower { grid-template-columns: 1fr; } }
+  .panel { background: var(--night-2); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .panel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .panel li { background: var(--night-3); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; line-height: 1.45; }
+  .panel li small { display: block; color: var(--text-2); font-size: 14px; margin-top: 2px; }
+  .panel .intro { color: var(--text-2); margin: -4px 0 12px; line-height: 1.5; }
+  .tick { color: var(--true-ink); font-family: "Pixelify Sans", sans-serif; font-weight: 700; margin-right: 6px; }
+
+  /* sprites */
+  .sprite { display: block; aspect-ratio: 1; }
+  .sprite canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+  .bob canvas { animation: bob 1.4s steps(2, jump-none) infinite; }
+  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-5%); } }
+  @media (prefers-reduced-motion: reduce) { .bob canvas { animation: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand pix"><div class="sprite" data-id="star" data-state="idle"><canvas width="40" height="40"></canvas></div>Tinkr</div>
+  <div class="where">
+    <span>my-journal</span><span class="mono">localhost:5173</span><span>Kiro · AI turn 14 · 2 min ago</span>
+  </div>
+  <button class="again" type="button">Check again</button>
+</header>
+
+<main>
+  <section class="summary" aria-labelledby="sum-title">
+    <div class="sprite bob" data-id="star" data-state="found"><canvas width="40" height="40"></canvas></div>
+    <div>
+      <h1 id="sum-title" class="pix">Your AI made 6 claims. 3 have problems.</h1>
+      <p>The crew tried each one on your live app. Here's what you asked, what the AI said, and what actually happened.</p>
+      <div class="counts">
+        <span class="count" data-v="true">2 true</span>
+        <span class="count" data-v="false">2 false</span>
+        <span class="count" data-v="mis">1 misleading</span>
+        <span class="count" data-v="cc">1 couldn't check</span>
+      </div>
+      <div class="handback">
+        <div class="sprite" data-id="star" data-state="haunting"><canvas width="40" height="40"></canvas></div>
+        <span>Sent the 3 problems to Kiro with the evidence. Kiro is fixing them now; the crew will check again when it's done.</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <section aria-labelledby="claims-title">
+      <h2 id="claims-title" class="section-title pix">Claims from this turn</h2>
+      <div class="heads" aria-hidden="true"><span>What you asked</span><span>What the AI said</span><span>What happened</span></div>
+      <div class="rows" id="rows" role="listbox" aria-label="Claims"></div>
+    </section>
+
+    <aside class="detail" id="detail" aria-live="polite"></aside>
+  </div>
+
+  <div class="lower">
+    <section class="panel" aria-labelledby="untold-title">
+      <h2 id="untold-title" class="section-title pix">You weren't told</h2>
+      <p class="intro">The AI changed these sensitive areas in this turn without mentioning them.</p>
+      <ul>
+        <li>Turned off a database rule on your notes
+          <small>This is why other users could read Priya's note. Included in what was sent to Kiro.</small></li>
+        <li>Changed your payments code
+          <small class="mono">src/payments/charge.ts  +12 −3</small></li>
+      </ul>
+    </section>
+    <section class="panel" aria-labelledby="does-title">
+      <h2 id="does-title" class="section-title pix">What your app does now</h2>
+      <p class="intro">Checked on the live app, in plain words. Only things the crew actually tried are listed.</p>
+      <ul>
+        <li><span class="tick">✓</span>People can switch to dark mode in Settings, and it stays on after a reload.</li>
+        <li><span class="tick">✓</span>The Save button works with only a keyboard, and screen readers announce it.</li>
+        <li><span class="tick">✓</span>Signed-out visitors are sent to the sign-in page when they open a note.</li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script>
+/* ---------------- data ---------------- */
+const CLAIMS = [
+  { id: "signup", v: "false", stamp: "False", ghost: "grandma",
+    asked: "Add sign-up with email", said: "Done! New users can sign up with their email ✅",
+    why: "Clicking “Create account” shows “Something went wrong”. Nobody can sign up.",
+    title: "Sign-up doesn't work",
+    story: "Grandma opened your sign-up page as a brand-new visitor and followed the steps. The last step failed.",
+    steps: [["ok", "Opened /signup"], ["ok", "Typed an email into “Email”"], ["ok", "Typed a password into “Password”"], ["bad", "Clicked “Create account”: the page showed “Something went wrong” and stayed on /signup"]],
+    page: "signup",
+    evidence: "Claim: \"New users can sign up with their email\"\nFailed at step 4: click \"Create account\"\nURL: /signup  (expected: /dashboard)\nOn screen: \"Something went wrong\"\nConsole: TypeError: Cannot read properties of undefined (reading 'id')\n  at createUser (src/auth/signup.ts:41)\nRequest: POST /api/users → 500\nScreenshot: step-4.png",
+  },
+  { id: "private", v: "false", stamp: "False", ghost: "thief",
+    asked: "Make my notes private", said: "Only you can see your notes now 🔒",
+    why: "Signed in as another user and read Priya's note “Dentist Tuesday”.",
+    title: "Other people can read your notes",
+    story: "The Thief made a note as Priya with a secret marker, then signed in as a different user and opened it.",
+    steps: [["ok", "Signed in as Priya and wrote a note with a secret marker"], ["ok", "Signed out, then signed in as a different test user"], ["bad", "Opened /notes/12: Priya's note and its marker were on the screen"], ["ok", "Signed out completely: visitors were sent to sign-in (this part is fine)"]],
+    page: "note",
+    evidence: "Claim: \"Only you can see your notes now\"\nFailed at step 3: other_user read owner's note\nURL: /notes/12\nMarker seen: tinkr-canary-7f3k\nRequest: GET /api/notes/12 as other_user → 200 (expected 403/404)\nRelated change you weren't told about: notes table rule turned off\nScreenshot: step-3.png",
+  },
+  { id: "tests", v: "mis", stamp: "Misleading", ghost: "star",
+    asked: "Fix the checkout total", said: "Fixed the total, and all tests pass ✅",
+    why: "Tests pass because the AI changed the test's expected total from 42 to 40. The total is still wrong.",
+    title: "Tests pass, but only because the test was changed",
+    story: "Tinkr ran your tests and looked at what the AI changed in this turn.",
+    steps: [["ok", "Ran your tests: all passed"], ["bad", "The AI edited checkout.test.ts in this turn: the expected total went from 42 to 40"], ["bad", "Grandma checked out 2 items worth $21 each: the total showed $40, not $42"]],
+    page: "checkout",
+    evidence: "Claim: \"Fixed the total, and all tests pass\"\nTests: exit 0\nEdited in this turn: tests/checkout.test.ts\n-  expect(total(cart)).toBe(42)\n+  expect(total(cart)).toBe(40)\nLive check: cart 2 × $21 → shown $40 (expected $42)",
+  },
+  { id: "dark", v: "true", stamp: "True", ghost: "grandma",
+    asked: "Add dark mode", said: "Added a dark mode switch in Settings",
+    why: "Turned it on in Settings. The app went dark and stayed dark after a reload.",
+    title: "Dark mode works",
+    story: "Grandma found the switch, turned it on, and reloaded to make sure it stuck.",
+    steps: [["ok", "Opened Settings"], ["ok", "Clicked “Dark mode”"], ["ok", "The page turned dark"], ["ok", "Reloaded: still dark"]],
+    page: "settings", evidence: null,
+  },
+  { id: "save", v: "true", stamp: "True", ghost: "listener",
+    asked: "Make the Save button easier to use", said: "The Save button now works with a keyboard",
+    why: "Reached “Save” with Tab and pressed Enter. Screen readers say “Save note, button”.",
+    title: "Save works with only a keyboard",
+    story: "The Listener used only the keyboard and a screen reader.",
+    steps: [["ok", "Pressed Tab 3 times: reached “Save note”"], ["ok", "The screen reader announced “Save note, button”"], ["ok", "Pressed Enter: the note was saved"]],
+    page: "save", evidence: null,
+  },
+  { id: "reset", v: "cc", stamp: "Couldn't check", ghost: "star",
+    asked: "Let people reset their password", said: "Password reset emails are sent now 📧",
+    why: "Tinkr can't read email inboxes yet. Add a test inbox to check this.",
+    title: "Couldn't check password reset",
+    story: "The reset form accepted an email address, but the claim is about an email arriving, and Tinkr has no test inbox to look in. It won't say “true” for something it couldn't see.",
+    steps: [["ok", "Opened /reset and entered a test email"], ["ok", "The page said “Check your inbox”"], ["cc", "Couldn't see whether an email arrived"]],
+    page: "reset", evidence: null,
+  },
+];
+
+const PAGES = {
+  signup: `<h3>Create your account</h3><div class="field">grandma.test@tinkr.dev</div><div class="field">••••••••••</div><span class="btn hl">Create account</span><div class="toast">Something went wrong</div>`,
+  note: `<h3>Note 12</h3><div class="note-card hl"><b>Dentist Tuesday</b>Bring insurance card. tinkr-canary-7f3k</div><p style="margin:10px 0 0;font-size:13px;color:#5a5070">Signed in as: test-user-2 (not Priya)</p>`,
+  checkout: `<h3>Your cart</h3><div class="field">Notebook × 1 · $21</div><div class="field">Pen set × 1 · $21</div><div class="field hl"><b>Total: $40</b></div>`,
+  settings: `<h3>Settings</h3><div class="field hl-ok">Dark mode: On</div><div class="field">Language: English</div>`,
+  save: `<h3>New note</h3><div class="field">Groceries</div><span class="btn hl-ok">Save note</span>`,
+  reset: `<h3>Reset your password</h3><div class="field">grandma.test@tinkr.dev</div><div class="field" style="background:#efe9fb">Check your inbox for a reset link.</div>`,
+};
+
+const NAMES = { grandma: "Grandma", thief: "The Thief", listener: "The Listener", star: "Tinkr" };
+
+/* ---------------- rows + detail ---------------- */
+const rowsEl = document.getElementById("rows");
+const detail = document.getElementById("detail");
+let selected = "signup";
+let replayTimer = null;
+
+function spriteHTML(id, state, cls = "") {
+  return `<div class="sprite ${cls}" data-id="${id}" data-state="${state}" aria-hidden="true"><canvas width="40" height="40"></canvas></div>`;
+}
+const ghostState = (v) => (v === "true" ? "clear" : v === "cc" ? "idle" : "found");
+
+function renderRows() {
+  rowsEl.innerHTML = CLAIMS.map((c) => `
+    <button class="row" role="option" data-v="${c.v}" data-id="${c.id}" aria-selected="${c.id === selected}">
+      <div><span class="label">What you asked</span><span class="asked">${c.asked}</span></div>
+      <div><span class="label">What the AI said</span><span class="said">“${c.said}”</span></div>
+      <div><span class="label">What happened</span>
+        <div class="found">${spriteHTML(c.ghost, c.id === "tests" ? "found" : ghostState(c.v))}
+          <div><span class="stamp pix">${c.stamp}</span><div class="why">${c.why}</div></div></div>
+      </div>
+    </button>`).join("");
+  rowsEl.querySelectorAll(".row").forEach((b) => b.addEventListener("click", () => { selected = b.dataset.id; renderRows(); renderDetail(); }));
+  paintAll();
+}
+
+function renderDetail() {
+  clearInterval(replayTimer);
+  const c = CLAIMS.find((x) => x.id === selected);
+  const marks = { ok: "✓", bad: "✗", cc: "?" };
+  detail.setAttribute("data-v", c.v);
+  detail.innerHTML = `
+    <span class="stamp pix">${c.stamp}</span>
+    <h2 class="pix">${c.title}</h2>
+    <div class="who">${spriteHTML(c.ghost, c.v === "true" ? "clear" : "found")}<span>Checked by ${NAMES[c.ghost]}</span></div>
+    <p>${c.story}</p>
+    <div class="browser" aria-label="Replay of the check">
+      <div class="bar"><i></i><i></i><i></i><span class="url mono">localhost:5173/${c.page === "note" ? "notes/12" : c.page}</span></div>
+      <div class="page">${PAGES[c.page]}${spriteHTML(c.ghost, "haunting", "ghost-cursor")}</div>
+    </div>
+    <div class="replay-row"><button class="replay pix" type="button" id="replay">Replay the steps</button></div>
+    <ol class="steps" id="steps">${c.steps.map(([k, t]) => `<li class="${k}"><span class="mark">${marks[k]}</span><span>${t}</span></li>`).join("")}</ol>
+    ${c.evidence ? `<details class="evidence"><summary>What Tinkr sent to Kiro</summary><pre class="mono">${c.evidence}</pre></details>
+      <div class="sent">${spriteHTML("star", "haunting")}<span>Sent to Kiro. You don't need to explain anything.</span></div>` : ""}`;
+  document.getElementById("replay").addEventListener("click", () => {
+    const items = [...document.querySelectorAll("#steps li")];
+    let i = 0;
+    clearInterval(replayTimer);
+    const tick = () => { items.forEach((li, j) => li.classList.toggle("now", j === i)); i++; if (i > items.length) { clearInterval(replayTimer); items.forEach((li) => li.classList.remove("now")); } };
+    tick(); replayTimer = setInterval(tick, 900);
+  });
+  paintAll();
+}
+
+/* ---------------- pixel sprites (from design/mascot/crew-pixel.html) ---------------- */
+const N = 40, INK = "#0d0a17", WHITE = "#f4efe6", PINK = "#ff7aa8", BLUSH = "rgba(255,122,168,.55)";
+const PAL = {
+  star: { body: "#f4c542", shade: "#c98a2b", hi: "#fff1a8" },
+  thief: { body: "#7b5cc4", shade: "#523a93", hi: "#a88df0" },
+  listener: { body: "#46a874", shade: "#2b7650", hi: "#86dda9" },
+  grandma: { body: "#d9648c", shade: "#a6436a", hi: "#f5a2bf" },
+};
+const key = (x, y) => x + "," + y;
+function ghostShape() {
+  const s = new Set();
+  for (let y = 7; y <= 29; y++) for (let x = 0; x < N; x++) {
+    const inDome = y < 18 && (x + 0.5 - 20) ** 2 + (y + 0.5 - 18) ** 2 <= 10.4 ** 2;
+    if (inDome || (y >= 18 && x >= 10 && x <= 29)) s.add(key(x, y));
+  }
+  for (let x = 10; x <= 29; x++) { const m = (x - 10) % 5; if (m <= 2) s.add(key(x, 30)); if (m === 1) s.add(key(x, 31)); }
+  for (const [x, y] of [[7, 21], [8, 21], [9, 21], [7, 22], [8, 22], [9, 22], [8, 23], [30, 21], [31, 21], [32, 21], [30, 22], [31, 22], [32, 22], [31, 23]]) s.add(key(x, y));
+  return s;
+}
+function starShape() {
+  const pts = [];
+  for (let i = 0; i < 10; i++) { const a = ((-90 + 36 * i) * Math.PI) / 180, r = i % 2 ? 7.2 : 16; pts.push([20 + r * Math.cos(a), 21 + r * Math.sin(a)]); }
+  const inside = (px, py) => { let c = false; for (let i = 0, j = 9; i < 10; j = i++) { const [xi, yi] = pts[i], [xj, yj] = pts[j]; if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) c = !c; } return c; };
+  const s = new Set();
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (inside(x + 0.5, y + 0.5)) s.add(key(x, y));
+  return s;
+}
+const SHAPES = { ghost: ghostShape(), star: starShape() };
+function painter(ctx) {
+  const px = (x, y, c) => { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); };
+  const rect = (x, y, w, h, c) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
+  const box = (x, y, w, h, fill) => { rect(x - 1, y - 1, w + 2, h + 2, INK); rect(x, y, w, h, fill); };
+  const pts = (list, c) => list.forEach(([x, y]) => px(x, y, c));
+  return { px, rect, box, pts };
+}
+function drawBody(p, set, c) {
+  const has = (x, y) => set.has(key(x, y));
+  for (const k of set) {
+    const [x, y] = k.split(",").map(Number);
+    let col = c.body;
+    if (!has(x + 2, y) || !has(x, y + 2) || !has(x + 1, y + 1)) col = c.shade;
+    else if (!has(x - 2, y) || !has(x, y - 2)) col = c.hi;
+    p.px(x, y, col);
+  }
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++)
+    if (!has(x, y) && (has(x + 1, y) || has(x - 1, y) || has(x, y + 1) || has(x, y - 1))) p.px(x, y, INK);
+}
+const eyes = (p, lx, rx, y, blink) => { for (const x of [lx, rx]) { if (blink) p.rect(x, y + 2, 2, 1, INK); else { p.rect(x, y, 2, 3, INK); p.px(x, y, WHITE); } } };
+const xEyes = (p, lx, rx, y) => { for (const x of [lx, rx]) p.pts([[x, y], [x + 2, y], [x + 1, y + 1], [x, y + 2], [x + 2, y + 2]], INK); };
+const cheeks = (p, l, r, y) => { p.rect(l, y, 2, 1, BLUSH); p.rect(r, y, 2, 1, BLUSH); };
+const smile = (p, x, y) => p.pts([[x, y], [x + 1, y + 1], [x + 2, y + 1], [x + 3, y]], INK);
+const openMouth = (p, x, y) => { p.rect(x, y, 4, 2, INK); p.rect(x + 1, y + 1, 2, 1, PINK); };
+const wavy = (p, x, y) => p.pts([[x, y + 1], [x + 1, y], [x + 2, y + 1], [x + 3, y], [x + 4, y + 1], [x + 5, y]], INK);
+const sparkle = (p, x, y, c) => p.pts([[x, y - 1], [x - 1, y], [x, y], [x + 1, y], [x, y + 1]], c);
+function alert(p) { p.box(32, 2, 6, 8, PINK); p.rect(34, 3, 2, 4, WHITE); p.rect(34, 8, 2, 1, WHITE); }
+
+function drawStar(p, c, st, f) {
+  drawBody(p, SHAPES.star, c);
+  if (st === "clear") { p.pts([[15, 20], [16, 19], [17, 20], [22, 20], [23, 19], [24, 20]], INK); openMouth(p, 18, 24); }
+  else if (st === "haunting") { p.rect(16, 18, 2, 3, INK); p.rect(23, 18, 2, 3, INK); p.rect(19, 24, 2, 2, INK); }
+  else if (st === "found") { p.rect(15, 19, 2, 3, INK); p.rect(23, 20, 2, 2, INK); p.pts([[14, 17], [15, 17], [16, 16]], INK); p.rect(22, 18, 3, 1, INK); wavy(p, 17, 24); }
+  else { eyes(p, 15, 23, 19, f % 18 === 0); smile(p, 18, 24); }
+  cheeks(p, 12, 26, 23);
+  if (st === "haunting") { const y = 6 - (f % 3); p.pts([[31, y], [32, y - 1], [33, y - 1], [34, y], [34, y + 1], [33, y + 2], [33, y + 3], [33, y + 5]], WHITE); }
+}
+function drawGhost(kind, p, c, st, f) {
+  const blink = (st === "idle" || st === "haunting") && f % 18 === 0;
+  if (kind === "grandma") {
+    for (let y = -4; y <= 4; y++) for (let x = -4; x <= 4; x++) { const d = x * x + y * y; if (d <= 18) p.px(20 + x, 5 + y, d <= 9 ? "#f5a2bf" : INK); }
+    p.rect(18, 3, 2, 1, "#ffd0e0");
+  }
+  drawBody(p, SHAPES.ghost, c);
+  if (kind === "thief") {
+    p.rect(11, 15, 19, 4, "#1a1026");
+    p.pts([[30, 15], [31, 14], [32, 14], [30, 17], [31, 18], [32, 18]], "#1a1026");
+    if (st === "clear") xEyes(p, 14, 23, 15);
+    else { p.rect(14, 16, 3, 2, WHITE); p.rect(23, 16, 3, 2, WHITE); if (!blink) { p.px(16, 16, INK); p.px(25, 16, INK); } }
+    if (st === "found") openMouth(p, 18, 22); else if (st === "clear") wavy(p, 17, 22); else p.pts([[17, 23], [18, 23], [19, 23], [20, 22], [21, 22]], INK);
+    cheeks(p, 12, 26, 20);
+    p.box(34, 20, 2, 8, "#7a4a2a"); p.rect(33, 15, 4, 5, "#ff7a2b"); p.rect(34, 16, 2, 3, "#ffd23f"); p.px(f % 2 ? 34 : 35, 14, "#ff7a2b");
+  }
+  if (kind === "listener") {
+    for (let x = 10; x <= 29; x++) { const y = 5 + Math.floor((x - 19.5) ** 2 / 26); p.rect(x, y, 1, 2, "#3b2a63"); }
+    p.box(7, 14, 3, 7, "#a58af0"); p.box(30, 14, 3, 7, "#a58af0");
+    if (st === "found") eyes(p, 15, 23, 17, false);
+    else p.pts([[14, 18], [15, 19], [16, 19], [17, 18], [22, 18], [23, 19], [24, 19], [25, 18]], INK);
+    if (st === "found") openMouth(p, 18, 23); else smile(p, 18, 23);
+    cheeks(p, 12, 26, 21);
+    p.box(0, 23, 13, 7, "#3b3550"); p.rect(0, 23, 13, 1, "#57507a");
+    for (const y of [24, 26]) for (let x = 1; x <= 11; x += 2) p.px(x, y, "#e8e2f5");
+    p.rect(3, 28, 7, 1, "#e8e2f5");
+  }
+  if (kind === "grandma") {
+    p.rect(15, 17, 2, 2, INK); p.rect(23, 17, 2, 2, INK);
+    if (blink) { p.rect(15, 17, 2, 1, c.body); p.rect(23, 17, 2, 1, c.body); }
+    for (const x of [13, 21]) { p.rect(x, 15, 6, 1, INK); p.rect(x, 20, 6, 1, INK); p.rect(x, 15, 1, 6, INK); p.rect(x + 5, 15, 1, 6, INK); }
+    p.rect(19, 16, 2, 1, INK);
+    if (st === "found") p.rect(19, 23, 2, 2, INK); else if (st === "clear") smile(p, 18, 23); else p.rect(19, 23, 2, 1, INK);
+    cheeks(p, 11, 27, 22);
+    p.box(31, 22, 6, 4, WHITE); p.rect(32, 26, 4, 1, WHITE); p.rect(32, 27, 4, 1, INK);
+    p.pts([[37, 23], [38, 23], [38, 24], [37, 25]], INK); p.rect(33, 23, 2, 1, PINK);
+  }
+  if (st === "found") alert(p);
+  if (st === "clear") { sparkle(p, 33, 6, "#9fe8c2"); }
+}
+let frame = 0;
+function paintAll() {
+  document.querySelectorAll(".sprite").forEach((el) => {
+    const ctx = el.querySelector("canvas").getContext("2d");
+    ctx.clearRect(0, 0, N, N);
+    const p = painter(ctx), id = el.dataset.id, st = el.dataset.state;
+    if (id === "star") drawStar(p, PAL.star, st, frame); else drawGhost(id, p, PAL[id], st, frame);
+  });
+}
+
+renderRows();
+renderDetail();
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => { frame++; paintAll(); }, 240);
+</script>
+</body>
+</html>

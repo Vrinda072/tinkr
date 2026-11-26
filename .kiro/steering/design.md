@@ -18,6 +18,10 @@ References:
 - One outline colour `#0D0A17`; each character has body, shade (bottom-right) and highlight (top-left).
 - Motion moves in whole steps (`steps()`), never smooth tweens, so pixels stay sharp.
 - Headings and character labels use **Pixelify Sans**; body text stays Atkinson Hyperlegible for readability.
+- `design/mockups/report.html` — **the approved report screen (Nov 26)**: summary with the star,
+  claim rows (what you asked / what the AI said / what happened), detail panel with the replay,
+  steps and what was sent to Kiro, "You weren't told", and "What your app does now". Dark pixel
+  theme; verdict colours: true mint, false pink, misleading amber, couldn't check lilac.
 - `design/mockups/index.html` — earlier camera-app mockups. Its tokens, type and overall feel
   still apply; its screens are superseded. New screens: promise cards, ghost run, report.
 
