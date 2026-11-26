@@ -1,3 +1,9 @@
+> **Updated Nov 26:** the approved look is now the dark pixel-art crew in
+> `design/mascot/crew-pixel.html`. Where this spec mentions the Butter Bun ink outline, shading
+> or SVG paths, follow the pixel sheet instead: 40 × 40 sprites drawn as SVG `<rect>` pixels (or a
+> canvas), scaled with crisp edges, one outline colour `#0D0A17`, motion in whole steps. The
+> states, API, accessibility and test requirements below still apply.
+
 # Requirements: TinkrStar mascot component
 
 ## Introduction

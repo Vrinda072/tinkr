@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tinkr pixel crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Pixelify+Sans:wght@500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --night: #120e1d; --night-2: #1c1630; --night-3: #2a2147; --line: #33295a;
+    --text: #f1eaff; --text-2: #c3b8e0; --ink: #0d0a17;
+    --found-bg: #4a1f33; --found-ink: #ffb3cc;
+    --clear-bg: #173a2c; --clear-ink: #9fe8c2;
+    --haunt-bg: #2a2350; --haunt-ink: #ddd0ff;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--night); color: var(--text); font-family: "Atkinson Hyperlegible", system-ui, sans-serif; }
+  main { max-width: 1120px; margin: 0 auto; padding: 40px 16px 72px; }
+  h1, h2, .chip, .states button, .bubble { font-family: "Pixelify Sans", system-ui, sans-serif; }
+  h1 { font-weight: 700; font-size: clamp(30px, 5.4vw, 50px); margin: 0 0 10px; line-height: 1.05; letter-spacing: 0.01em; }
+  .lede { color: var(--text-2); margin: 0; max-width: 640px; line-height: 1.6; font-size: 17px; }
+
+  .lineup { display: flex; justify-content: center; align-items: flex-end; gap: clamp(0px, 1vw, 12px); margin: 30px 0 6px;
+    padding: 16px 0 6px; background: radial-gradient(ellipse at 50% 100%, #241c3d 0 45%, transparent 72%); }
+  .lineup .sprite { width: clamp(52px, 13vw, 140px); }
+  .lineup .sprite.lead { width: clamp(64px, 16vw, 168px); }
+
+  .states { display: flex; gap: 4px; flex-wrap: wrap; margin: 26px 0 22px; background: var(--night-2);
+    border: 1px solid var(--line); padding: 5px; border-radius: 10px; width: fit-content; max-width: 100%; }
+  .states button { font: inherit; font-family: "Pixelify Sans", sans-serif; font-weight: 500; font-size: 16px; border: 0; background: transparent;
+    color: var(--text-2); padding: 9px 14px; border-radius: 6px; cursor: pointer; }
+  .states button[aria-pressed="true"] { background: var(--text); color: var(--night); }
+  .states button:focus-visible, .stage:focus-visible { outline: 3px solid #ffe08a; outline-offset: 3px; }
+
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 580px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--night-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px 14px 18px;
+    display: flex; flex-direction: column; gap: 8px; }
+  .card.leader { border-color: #6b5520; background: linear-gradient(180deg, #2a2216, var(--night-2) 60%); }
+  .stage { position: relative; aspect-ratio: 1.15; border-radius: 8px; display: grid; place-items: center; cursor: pointer; overflow: hidden;
+    background: radial-gradient(circle at 50% 40%, #2b2246, #161124 75%); }
+  .stage .sprite { width: 62%; }
+  .card h2 { font-weight: 700; font-size: 24px; margin: 6px 0 0; }
+  .role { margin: 0; color: var(--text-2); font-size: 15px; line-height: 1.55; }
+  .chip { display: flex; align-items: center; gap: 8px; border-radius: 6px; padding: 6px 12px 6px 6px; font-size: 15px;
+    width: fit-content; max-width: 100%; margin-top: 4px; background: #241d3a; color: var(--haunt-ink); }
+  .chip .sprite { width: 32px; flex: none; }
+  .chip[data-tone="found"] { background: var(--found-bg); color: var(--found-ink); }
+  .chip[data-tone="clear"] { background: var(--clear-bg); color: var(--clear-ink); }
+  .chip[data-tone="haunting"] { background: var(--haunt-bg); color: var(--haunt-ink); }
+  .note { margin-top: 28px; font-size: 15px; color: var(--text-2); line-height: 1.6; max-width: 720px; }
+  code { color: var(--text); }
+
+  /* sprites: crisp pixels, motion in whole-pixel steps */
+  .sprite { display: block; aspect-ratio: 1; image-rendering: pixelated; image-rendering: crisp-edges; }
+  .sprite canvas { width: 100%; height: 100%; display: block; image-rendering: pixelated; image-rendering: crisp-edges; }
+  .sprite[data-state="idle"] canvas { animation: bob 1.4s steps(2, jump-none) infinite; }
+  .sprite[data-state="haunting"] canvas { animation: drift 1.6s steps(4, jump-none) infinite; }
+  .sprite[data-state="found"] canvas { animation: hop 0.9s steps(3, jump-none) infinite; }
+  .sprite[data-state="clear"] canvas { transform: translateY(5%); }
+  @keyframes bob { from { transform: translateY(0); } to { transform: translateY(-5%); } }
+  @keyframes drift { 0% { transform: translateX(-5%); } 50% { transform: translateX(5%) translateY(-2.5%); } 100% { transform: translateX(-5%); } }
+  @keyframes hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10%); } }
+  .boop canvas { animation: boop 0.36s steps(3, jump-none) !important; }
+  @keyframes boop { 0% { transform: scale(1); } 50% { transform: scale(1.12, 0.88); } 100% { transform: scale(1); } }
+
+  .bubble { position: absolute; right: 6%; top: 8%; background: #f1eaff; color: var(--night); font-weight: 700; font-size: 15px;
+    padding: 6px 10px; border-radius: 4px; box-shadow: 0 0 0 2px var(--ink); display: none; }
+  .bubble::after { content: ""; position: absolute; left: 14px; bottom: -8px; border: 5px solid transparent; border-top-color: #f1eaff; }
+  .stage[data-state="haunting"] .bubble { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sprite canvas, .boop canvas { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tinkr and the ghost crew</h1>
+  <p class="lede">The star reads what you asked your AI to build and sends the crew. Each ghost checks your app a different way and reports back in plain words. Switch the moment below, and click any of them to boop it.</p>
+
+  <div class="lineup" id="lineup" aria-hidden="true"></div>
+
+  <div class="states" role="group" aria-label="Moment">
+    <button data-s="idle" aria-pressed="true">Waiting</button>
+    <button data-s="haunting" aria-pressed="false">Checking your app</button>
+    <button data-s="found" aria-pressed="false">Found a problem</button>
+    <button data-s="clear" aria-pressed="false">Promise kept</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <p class="note">Every sprite is a 40 × 40 pixel drawing scaled up with crisp edges, and motion moves in whole steps so it stays pixel-sharp. One dark outline and one shading rule for the whole crew, so they read as a set. A ghost that finds a problem gets a pink flag, never red. This sheet replaces the light version as the reference for <code>@tinkr/star</code>.</p>
+</main>
+
+<script>
+const N = 40;
+const INK = "#0d0a17", WHITE = "#f4efe6", PINK = "#ff7aa8", BLUSH = "rgba(255,122,168,.55)";
+
+const CHARS = {
+  star:      { name: "Tinkr", shape: "star", body: "#f4c542", shade: "#c98a2b", hi: "#fff1a8",
+    role: "The leader. Reads what you asked your AI to build, turns it into promises, sends the crew, and tells you what they found.",
+    chips: { idle: "Ready when you are", haunting: "The crew is checking 4 promises…", found: "1 promise broken, with proof", clear: "All 4 promises kept" } },
+  thief:     { name: "The Thief", shape: "ghost", body: "#7b5cc4", shade: "#523a93", hi: "#a88df0",
+    role: "Signs in as someone else, and as a stranger who isn't signed in, and tries to read or change your users' data.",
+    chips: { idle: "Ready to snoop", haunting: "Opening Priya's entries as another user…", found: "Got in: any user can read Priya's entries", clear: "Couldn't get in. Promise kept." } },
+  listener:  { name: "The Listener", shape: "ghost", body: "#46a874", shade: "#2b7650", hi: "#86dda9",
+    role: "Uses your app with only a keyboard and a screen reader, the way blind and low-vision people do, and checks every page against accessibility rules.",
+    chips: { idle: "Ready to listen", haunting: "Tabbing through every page…", found: "Can't reach 'Save' with the keyboard", clear: "Every button reachable and named." } },
+  grandma:   { name: "Grandma", shape: "ghost", body: "#d9648c", shade: "#a6436a", hi: "#f5a2bf",
+    role: "Has never seen your app before. Types her email in the name box, presses back halfway through, and tells you where she got lost.",
+    chips: { idle: "Ready for a cup of tea", haunting: "Typing my email in the name box…", found: "Got stuck at checkout: no way back", clear: "Found my way around just fine." } },
+  owl:       { name: "The Night Owl", shape: "owl", body: "#6366c4", shade: "#43458f", hi: "#9fa2ee",
+    role: "Opens your app at 2am on a tiny phone with slow Wi-Fi, and tells you what didn't fit or never finished loading.",
+    chips: { idle: "Up late, as always", haunting: "Loading on a small phone, slow Wi-Fi…", found: "Sign-up button is off-screen on a small phone", clear: "Works on my tiny phone." } },
+  trickster: { name: "The Trickster", shape: "ghost", body: "#e9744a", shade: "#b14d2a", hi: "#ffae86",
+    role: "Chats with your AI bot and sweet-talks it into breaking your rules, like refunding too much or sending emails you never approved.",
+    chips: { idle: "Ready to sweet-talk your bot", haunting: "Asking for a $500 refund, nicely…", found: "Your bot refunded $500. The limit was $50.", clear: "Your bot said no. Promise kept." } },
+};
+
+/* ---------- shapes on a 40×40 grid ---------- */
+const key = (x, y) => x + "," + y;
+function ghostShape(withTufts) {
+  const s = new Set();
+  for (let y = 7; y <= 29; y++) for (let x = 0; x < N; x++) {
+    const inDome = y < 18 && (x + 0.5 - 20) ** 2 + (y + 0.5 - 18) ** 2 <= 10.4 ** 2;
+    const inBody = y >= 18 && x >= 10 && x <= 29;
+    if (inDome || inBody) s.add(key(x, y));
+  }
+  for (let x = 10; x <= 29; x++) { const m = (x - 10) % 5; if (m <= 2) s.add(key(x, 30)); if (m === 1) s.add(key(x, 31)); }
+  for (const [x, y] of [[7, 21], [8, 21], [9, 21], [7, 22], [8, 22], [9, 22], [8, 23], [30, 21], [31, 21], [32, 21], [30, 22], [31, 22], [32, 22], [31, 23]]) s.add(key(x, y));
+  if (withTufts) for (let i = 0; i < 4; i++) for (let j = 0; j <= i; j++) { s.add(key(12 + j, 6 + i)); s.add(key(27 - j, 6 + i)); }
+  return s;
+}
+function starShape() {
+  const pts = [];
+  for (let i = 0; i < 10; i++) {
+    const a = ((-90 + 36 * i) * Math.PI) / 180, r = i % 2 ? 7.2 : 16;
+    pts.push([20 + r * Math.cos(a), 21 + r * Math.sin(a)]);
+  }
+  const inside = (px, py) => {
+    let c = false;
+    for (let i = 0, j = 9; i < 10; j = i++) {
+      const [xi, yi] = pts[i], [xj, yj] = pts[j];
+      if (yi > py !== yj > py && px < ((xj - xi) * (py - yi)) / (yj - yi) + xi) c = !c;
+    }
+    return c;
+  };
+  const s = new Set();
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) if (inside(x + 0.5, y + 0.5)) s.add(key(x, y));
+  return s;
+}
+const SHAPES = { ghost: ghostShape(false), owl: ghostShape(true), star: starShape() };
+
+/* ---------- drawing helpers ---------- */
+function painter(ctx) {
+  const px = (x, y, c) => { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); };
+  const rect = (x, y, w, h, c) => { ctx.fillStyle = c; ctx.fillRect(x, y, w, h); };
+  const box = (x, y, w, h, fill) => { rect(x - 1, y - 1, w + 2, h + 2, INK); rect(x, y, w, h, fill); };
+  const pts = (list, c) => list.forEach(([x, y]) => px(x, y, c));
+  return { px, rect, box, pts };
+}
+function drawBody(p, set, c) {
+  const has = (x, y) => set.has(key(x, y));
+  for (const k of set) {
+    const [x, y] = k.split(",").map(Number);
+    let col = c.body;
+    if (!has(x + 2, y) || !has(x, y + 2) || !has(x + 1, y + 1)) col = c.shade;
+    else if (!has(x - 2, y) || !has(x, y - 2)) col = c.hi;
+    p.px(x, y, col);
+  }
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++)
+    if (!has(x, y) && (has(x + 1, y) || has(x - 1, y) || has(x, y + 1) || has(x, y - 1))) p.px(x, y, INK);
+}
+
+const eyes = (p, lx, rx, y, blink) => {
+  for (const x of [lx, rx]) {
+    if (blink) p.rect(x, y + 2, 2, 1, INK);
+    else { p.rect(x, y, 2, 3, INK); p.px(x, y, WHITE); }
+  }
+};
+const xEyes = (p, lx, rx, y) => { for (const x of [lx, rx]) p.pts([[x, y], [x + 2, y], [x + 1, y + 1], [x, y + 2], [x + 2, y + 2]], INK); };
+const cheeks = (p, l, r, y) => { p.rect(l, y, 2, 1, BLUSH); p.rect(r, y, 2, 1, BLUSH); };
+const smile = (p, x, y) => p.pts([[x, y], [x + 1, y + 1], [x + 2, y + 1], [x + 3, y]], INK);
+const openMouth = (p, x, y) => { p.rect(x, y, 4, 2, INK); p.rect(x + 1, y + 1, 2, 1, PINK); };
+const wavy = (p, x, y) => p.pts([[x, y + 1], [x + 1, y], [x + 2, y + 1], [x + 3, y], [x + 4, y + 1], [x + 5, y]], INK);
+const sparkle = (p, x, y, c) => p.pts([[x, y - 1], [x - 1, y], [x, y], [x + 1, y], [x, y + 1]], c);
+function alert(p) { p.box(32, 2, 6, 8, PINK); p.rect(34, 3, 2, 4, WHITE); p.rect(34, 8, 2, 1, WHITE); }
+function dizzy(p, f) {
+  const ring = [[20, 2], [26, 4], [14, 4]];
+  ring.forEach(([x, y], i) => sparkle(p, x + ((f + i) % 3) - 1, y, i % 2 ? "#ffe08a" : "#c9b6ff"));
+}
+
+/* ---------- characters ---------- */
+function drawStar(p, c, st, f) {
+  drawBody(p, SHAPES.star, c);
+  const blink = st === "idle" && f % 18 === 0;
+  if (st === "clear") { p.pts([[15, 20], [16, 19], [17, 20], [22, 20], [23, 19], [24, 20]], INK); openMouth(p, 18, 24); }
+  else if (st === "haunting") { p.rect(16, 18, 2, 3, INK); p.rect(23, 18, 2, 3, INK); p.rect(19, 24, 2, 2, INK); }
+  else if (st === "found") { p.rect(15, 19, 2, 3, INK); p.rect(23, 20, 2, 2, INK); p.pts([[14, 17], [15, 17], [16, 16]], INK); p.rect(22, 18, 3, 1, INK); wavy(p, 17, 24); }
+  else { eyes(p, 15, 23, 19, blink); smile(p, 18, 24); }
+  cheeks(p, 12, 26, 23);
+  if (st === "haunting" || st === "found") {
+    const y = st === "haunting" ? 6 - (f % 3) : 5;
+    p.pts([[31, y], [32, y - 1], [33, y - 1], [34, y], [34, y + 1], [33, y + 2], [33, y + 3], [33, y + 5]], WHITE);
+  }
+  if (st === "clear") { sparkle(p, 6 + (f % 2), 8, "#ffe08a"); sparkle(p, 34, 10 + (f % 2), "#ff9ec4"); sparkle(p, 33, 32, "#86dda9"); sparkle(p, 6, 30, "#c9b6ff"); }
+  if (st === "idle" && f % 8 < 4) sparkle(p, 34, 8, "#ffe08a");
+}
+
+function drawGhost(kind, p, c, st, f) {
+  const blink = (st === "idle" || st === "haunting") && f % 18 === 0;
+
+  // behind the body
+  if (kind === "grandma") {
+    for (let y = -4; y <= 4; y++) for (let x = -4; x <= 4; x++) { const d = x * x + y * y; if (d <= 18) p.px(20 + x, 5 + y, d <= 9 ? "#f5a2bf" : INK); }
+    p.rect(18, 3, 2, 1, "#ffd0e0"); p.pts([[22, 4], [23, 5]], "#c7527c");
+  }
+  if (kind === "trickster") p.pts([[20, 6], [21, 5], [22, 5], [23, 6], [23, 7], [22, 8]], INK);
+
+  drawBody(p, kind === "owl" ? SHAPES.owl : SHAPES.ghost, c);
+
+  if (kind === "thief") {
+    p.rect(11, 15, 19, 4, "#1a1026");
+    p.pts([[30, 15], [31, 14], [32, 14], [30, 17], [31, 18], [32, 18]], "#1a1026");
+    if (st === "clear") { xEyes(p, 14, 23, 15); }
+    else { p.rect(14, 16, 3, 2, WHITE); p.rect(23, 16, 3, 2, WHITE); if (!blink) { p.px(16, 16, INK); p.px(25, 16, INK); } }
+    if (st === "found") openMouth(p, 18, 22); else if (st === "clear") wavy(p, 17, 22);
+    else p.pts([[17, 23], [18, 23], [19, 23], [20, 22], [21, 22]], INK);
+    cheeks(p, 12, 26, 20);
+    // torch
+    p.box(34, 20, 2, 8, "#7a4a2a");
+    const big = st === "haunting" ? 1 : 0;
+    p.rect(33, 15 - big, 4, 5 + big, "#ff7a2b"); p.rect(34, 16 - big, 2, 3 + big, "#ffd23f");
+    p.px(f % 2 ? 34 : 35, 14 - big, "#ff7a2b");
+    if (st === "haunting") for (let i = 0; i < 4; i++) p.px(37 + (i % 2), 12 + i * 3 + (f % 2), "rgba(255,210,63,.6)");
+  }
+
+  if (kind === "listener") {
+    for (let x = 10; x <= 29; x++) { const y = 5 + Math.floor((x - 19.5) ** 2 / 26); p.rect(x, y, 1, 2, "#3b2a63"); }
+    p.box(7, 14, 3, 7, "#a58af0"); p.box(30, 14, 3, 7, "#a58af0");
+    if (st === "found") eyes(p, 15, 23, 17, false);
+    else if (st === "clear") xEyes(p, 14, 23, 17);
+    else p.pts([[14, 18], [15, 19], [16, 19], [17, 18], [22, 18], [23, 19], [24, 19], [25, 18]], INK);
+    if (st === "found") openMouth(p, 18, 23); else if (st === "clear") wavy(p, 17, 23); else smile(p, 18, 23);
+    cheeks(p, 12, 26, 21);
+    // Tab key
+    p.box(1, 23, 8, 6, WHITE);
+    p.pts([[2, 26], [3, 26], [4, 26], [5, 26], [6, 26], [5, 25], [5, 27], [7, 25], [7, 26], [7, 27]], INK);
+    if (st === "haunting") for (let i = 0; i < 3; i++) if ((f + i) % 3 !== 0) { const x = 35 + i * 2; p.rect(x, 15 - i, 1, 5 + i * 2, "#86dda9"); }
+  }
+
+  if (kind === "grandma") {
+    if (st === "clear") xEyes(p, 14, 23, 16);
+    else { p.rect(15, 17, 2, 2, INK); p.rect(23, 17, 2, 2, INK); if (blink) { p.rect(15, 17, 2, 1, c.body); p.rect(23, 17, 2, 1, c.body); } }
+    for (const x of [13, 21]) { p.rect(x, 15, 6, 1, INK); p.rect(x, 20, 6, 1, INK); p.rect(x, 15, 1, 6, INK); p.rect(x + 5, 15, 1, 6, INK); }
+    p.rect(19, 16, 2, 1, INK);
+    if (st === "found") { p.rect(19, 23, 2, 2, INK); } else if (st === "clear") smile(p, 18, 23); else p.rect(19, 23, 2, 1, INK);
+    cheeks(p, 11, 27, 22);
+    // teacup
+    p.box(31, 22, 6, 4, WHITE); p.rect(32, 26, 4, 1, WHITE); p.px(31, 26, INK); p.px(36, 26, INK); p.rect(32, 27, 4, 1, INK);
+    p.pts([[37, 23], [38, 23], [38, 24], [37, 25]], INK); p.rect(33, 23, 2, 1, PINK);
+    if (st !== "found") { p.px(33, 20 - (f % 2), "rgba(244,239,230,.7)"); p.px(35, 19 + (f % 2), "rgba(244,239,230,.7)"); }
+  }
+
+  if (kind === "owl") {
+    for (const cx of [15, 24]) {
+      for (let y = -3; y <= 3; y++) for (let x = -3; x <= 3; x++) if (x * x + y * y <= 10) p.px(cx + x, 17 + y, WHITE);
+      for (let y = -4; y <= 4; y++) for (let x = -4; x <= 4; x++) { const d = x * x + y * y; if (d > 10 && d <= 17) p.px(cx + x, 17 + y, INK); }
+      if (st === "clear") { for (let y = -3; y <= 3; y++) for (let x = -3; x <= 3; x++) if (x * x + y * y <= 10) p.px(cx + x, 17 + y, c.shade); p.rect(cx - 2, 18, 5, 1, INK); }
+      else {
+        p.rect(cx - 1, 17, 2, 2, INK); p.px(cx - 1, 17, WHITE);
+        if (st !== "found") { for (let y = -3; y <= -1; y++) for (let x = -3; x <= 3; x++) if (x * x + y * y <= 10) p.px(cx + x, 17 + y, c.shade); p.rect(cx - 3, 16, 7, 1, INK); }
+      }
+    }
+    p.box(19, 22, 2, 2, "#f2a13a");
+    cheeks(p, 10, 28, 23);
+    // phone with loader
+    p.box(33, 20, 5, 8, "#2a2140"); p.rect(34, 21, 3, 5, "#43458f");
+    const ring = [[34, 22], [35, 21], [36, 22], [36, 24], [35, 25], [34, 24]];
+    const [lx, ly] = ring[f % ring.length]; p.px(lx, ly, WHITE);
+    if (st === "idle") { p.rect(3, 4, 4, 1, "#ffe08a"); p.rect(2, 5, 3, 3, "#ffe08a"); p.rect(3, 8, 4, 1, "#ffe08a"); }
+  }
+
+  if (kind === "trickster") {
+    if (st === "clear") xEyes(p, 14, 23, 16);
+    else {
+      p.rect(15, 16, 2, 3, INK); p.px(15, 16, WHITE);
+      p.pts([[22, 18], [23, 17], [24, 17], [25, 18]], INK);
+    }
+    if (st === "clear") p.pts([[17, 23], [18, 22], [19, 22], [20, 22], [21, 22], [22, 23]], INK);
+    else if (st === "found") openMouth(p, 18, 22);
+    else { p.rect(16, 21, 7, 2, INK); p.rect(20, 23, 2, 1, PINK); p.px(19, 23, INK); p.px(22, 23, INK); }
+    cheeks(p, 11, 27, 20);
+    if (st === "idle" && f % 8 < 4) sparkle(p, 6, 8, "#ffe08a");
+  }
+
+  if (st === "found") alert(p);
+  if (st === "clear") dizzy(p, f);
+}
+
+function draw(canvas, id, st, f) {
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, N, N);
+  const p = painter(ctx);
+  // shadow
+  p.rect(13, 35, 14, 1, "rgba(0,0,0,.45)"); p.rect(15, 36, 10, 1, "rgba(0,0,0,.35)");
+  const c = CHARS[id];
+  if (id === "star") drawStar(p, c, st, f); else drawGhost(id, p, c, st, f);
+}
+
+/* ---------- page ---------- */
+const ORDER = ["star", "thief", "listener", "grandma", "owl", "trickster"];
+const TONE = { idle: "", haunting: "haunting", found: "found", clear: "clear" };
+let moment = "idle", frame = 0;
+
+function sprite(id, cls, label) {
+  return `<div class="sprite ${cls}" data-id="${id}" data-state="${moment}" ${label ? `role="img" aria-label="${label}"` : 'aria-hidden="true"'}><canvas width="${N}" height="${N}"></canvas></div>`;
+}
+
+function render() {
+  const lineup = ["owl", "thief", "star", "listener", "grandma", "trickster"];
+  document.getElementById("lineup").innerHTML = lineup.map((id) => sprite(id, id === "star" ? "lead" : "", "")).join("");
+  document.getElementById("grid").innerHTML = ORDER.map((id) => {
+    const c = CHARS[id];
+    return `<article class="card ${id === "star" ? "leader" : ""}">
+      <div class="stage" data-state="${moment}" tabindex="0" role="button" aria-label="Boop ${c.name}">
+        ${sprite(id, "", `${c.name}, ${moment}`)}
+        ${id === "trickster" ? '<span class="bubble">just once?</span>' : ""}
+      </div>
+      <h2>${c.name}</h2><p class="role">${c.role}</p>
+      <div class="chip" data-tone="${TONE[moment]}">${sprite(id, "", "")}<span>${c.chips[moment]}</span></div>
+    </article>`;
+  }).join("");
+  document.querySelectorAll(".stage").forEach((stage) => {
+    const s = stage.querySelector(".sprite");
+    const boop = () => { s.classList.remove("boop"); void s.offsetWidth; s.classList.add("boop"); };
+    stage.addEventListener("click", boop);
+    stage.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); boop(); } });
+  });
+  paint();
+}
+
+function paint() {
+  document.querySelectorAll(".sprite").forEach((el) => draw(el.querySelector("canvas"), el.dataset.id, el.dataset.state, frame));
+}
+
+document.querySelectorAll(".states button").forEach((b) =>
+  b.addEventListener("click", () => {
+    moment = b.dataset.s;
+    document.querySelectorAll(".states button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    render();
+  })
+);
+
+render();
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(() => { frame++; paint(); }, 220);
+</script>
+</body>
+</html>

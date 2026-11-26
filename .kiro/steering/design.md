@@ -8,8 +8,16 @@ fileMatchPattern: ["apps/**", "packages/star/**"]
 References:
 - `design/mascot/star-directions.html` — mascot; the chosen direction is **A · Butter Bun**.
   In Tinkr the star leads the ghost crew.
-- `design/mascot/crew.html` — the ghost crew (Thief, Listener, Grandma, Night Owl, Trickster)
-  and how each reacts while waiting, checking, finding a problem, and when a promise is kept.
+- `design/mascot/crew-pixel.html` — **the approved mascot reference (Nov 26)**: the star and the ghost
+  crew (Thief, Listener, Grandma, Night Owl, Trickster) as dark pixel art, and how each reacts
+  while waiting, checking, finding a problem, and when a promise is kept.
+  `crew.html` (soft inked look) and the Butter Bun star page are superseded for the characters.
+
+## Pixel character rules
+- Sprites are drawn on a 40 × 40 grid and scaled up with crisp edges (`image-rendering: pixelated`).
+- One outline colour `#0D0A17`; each character has body, shade (bottom-right) and highlight (top-left).
+- Motion moves in whole steps (`steps()`), never smooth tweens, so pixels stay sharp.
+- Headings and character labels use **Pixelify Sans**; body text stays Atkinson Hyperlegible for readability.
 - `design/mockups/index.html` — earlier camera-app mockups. Its tokens, type and overall feel
   still apply; its screens are superseded. New screens: promise cards, ghost run, report.
 
